@@ -1,8 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:africa_relief/view/screens/home_screen/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import '../../config/themes/colors.dart';
 import '../../config/themes/icons.dart';
 
@@ -132,7 +134,7 @@ class ButtonLogin extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 0,left: 0,top: 12,bottom: 16),
+      padding: EdgeInsets.only(right: 0,left: 0,top: 12,bottom: 12),
       child: Container(
         height: 52,
         width: double.infinity,
@@ -157,7 +159,7 @@ class OrLine extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(top: 52.0,right: 10,left: 10),
+      padding:  EdgeInsets.only(top: 40.0,right: 10,left: 10),
       child: Row(
         children: [
           Expanded(child: Container(color: HexColor('E4E3E9'),height: 1)),
@@ -191,10 +193,13 @@ class RegisterLine extends StatelessWidget{
   }
 }
 class SkipButton extends StatelessWidget{
+  const SkipButton({super.key});
   @override
   Widget build(BuildContext context) {
     return Center(child: GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => HomeScreen(),));
+      },
       child: Container(
         height: 29,
         width: 69,

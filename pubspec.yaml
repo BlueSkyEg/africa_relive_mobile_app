@@ -38,7 +38,11 @@ dependencies:
   flutter_svg:
   hexcolor:
   flutter_screenutil:
-
+  wtf_sliding_sheet: ^1.1.0
+  dio:
+  shared_preferences:
+  bloc:
+  smooth_page_indicator:
 
 dev_dependencies:
   flutter_test:

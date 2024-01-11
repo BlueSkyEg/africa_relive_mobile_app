@@ -1,14 +1,21 @@
 
 import 'package:africa_relief/view/screens/login_screen/login.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'config/themes/theme.dart';
+import 'core/apis/dio.dart';
+import 'core/helper/Cashhelper/cash_helper.dart';
+import 'core/helper/blocobserver/bloc_obsorver.dart';
 
 
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  DioHelper.init();
+  Bloc.observer = SimpleBlocObserver();
+  // await CashHelper.int();
   Widget? startScreen =LoginScreen();
   runApp(MyApp(startScreen: startScreen,));
 }
