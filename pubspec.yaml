@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg:
   hexcolor:
+  dropdown_button2:
   flutter_screenutil:
   wtf_sliding_sheet: ^1.1.0
   dio:

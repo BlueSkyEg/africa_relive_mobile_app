@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:africa_relief/view/screens/single_project_screen/project_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 import '../../config/themes/colors.dart';
 
@@ -16,8 +14,7 @@ class CardOfGridviewOfProjects extends StatelessWidget{
     // TODO: implement build
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => ProjectScreen(),));
-
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectScreen(),));
       },
       child: Container(
         width: 165.5,

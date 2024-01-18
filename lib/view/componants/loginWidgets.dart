@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:africa_relief/view/screens/home_screen/home_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -10,7 +9,7 @@ import '../../config/themes/icons.dart';
 
 class LoginWays extends StatelessWidget{
   final String imagePath;
-  LoginWays({super.key, required this.imagePath});
+  const LoginWays({super.key, required this.imagePath});
   @override
   Widget build(BuildContext context) {
     return  Padding(
@@ -31,6 +30,8 @@ class LoginWays extends StatelessWidget{
   }
 }
 class RowLoginWays extends StatelessWidget{
+  const RowLoginWays({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,7 +39,7 @@ class RowLoginWays extends StatelessWidget{
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           LoginWays(imagePath: 'assets/images/logos_facebook.svg'),
           LoginWays(imagePath: 'assets/images/Google.svg'),
           LoginWays(imagePath: 'assets/images/bi_apple.svg'),
@@ -156,6 +157,8 @@ class ButtonLogin extends StatelessWidget{
   }
 }
 class OrLine extends StatelessWidget{
+  const OrLine({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -174,6 +177,8 @@ class OrLine extends StatelessWidget{
   }
 }
 class RegisterLine extends StatelessWidget{
+  const RegisterLine({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

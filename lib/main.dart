@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'config/themes/theme.dart';
 import 'core/apis/dio.dart';
-import 'core/helper/Cashhelper/cash_helper.dart';
 import 'core/helper/blocobserver/bloc_obsorver.dart';
 
 
@@ -16,7 +15,7 @@ void main() async{
   DioHelper.init();
   Bloc.observer = SimpleBlocObserver();
   // await CashHelper.int();
-  Widget? startScreen =LoginScreen();
+  Widget? startScreen =const LoginScreen();
   runApp(MyApp(startScreen: startScreen,));
 }
 
