@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../config/themes/colors.dart';
+import '../screens/single_project_screen/project_screen.dart';
 
 class ProjectTypeText extends StatelessWidget{
   final String projectTypeText;
@@ -43,7 +44,7 @@ class SubscribersRow extends StatelessWidget{
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: SvgPicture.asset('assets/images/person1.svg',fit: BoxFit.cover,),
+                     child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/f351/310a/a237f2216042fe012abbb1d0abfc88f9?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EauKcgu~aO3D-46gn-wZY1YiDIo6XPiVS3Ww3m9j-x6cLo8IFfvi9tHxls7Xiccl6PX5pM6k2PI43awfwq66llh97mvsmpqPTgRtJKF11vzmNBYog35QQz38AcZOFYqx16MCGGUuWrRvr7SO3s1ODmAdWJ2ED0PEQCVzwemh8YbyqZb-p53crBA7DgDxzKRn~4tG20TMk0S55ebGZZ5SEBbAg-91cP9eLELZYfOXXinsoxeJZAPcfd1e20o~EtaPwTeEC9do5wmOT5rOKCpsoxrYMm6qnpEfdyJ2avEfssndtN0o9MTFskg2VgBsYZ~XFvRrk0H3KO-4XdKkAEQqDg__'),fit: BoxFit.cover),
                   ),
                   Stack(
                     children: [
@@ -64,7 +65,7 @@ class SubscribersRow extends StatelessWidget{
                               ),
                             ],
                           ),
-                          child: SvgPicture.asset('assets/images/person1.svg',fit: BoxFit.cover,),
+                           child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/f351/310a/a237f2216042fe012abbb1d0abfc88f9?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EauKcgu~aO3D-46gn-wZY1YiDIo6XPiVS3Ww3m9j-x6cLo8IFfvi9tHxls7Xiccl6PX5pM6k2PI43awfwq66llh97mvsmpqPTgRtJKF11vzmNBYog35QQz38AcZOFYqx16MCGGUuWrRvr7SO3s1ODmAdWJ2ED0PEQCVzwemh8YbyqZb-p53crBA7DgDxzKRn~4tG20TMk0S55ebGZZ5SEBbAg-91cP9eLELZYfOXXinsoxeJZAPcfd1e20o~EtaPwTeEC9do5wmOT5rOKCpsoxrYMm6qnpEfdyJ2avEfssndtN0o9MTFskg2VgBsYZ~XFvRrk0H3KO-4XdKkAEQqDg__'),fit: BoxFit.cover),
                         ),
                       ),
                       Stack(
@@ -86,7 +87,7 @@ class SubscribersRow extends StatelessWidget{
                                   ),
                                 ],
                               ),
-                              child: SvgPicture.asset('assets/images/person1.svg',fit: BoxFit.cover,),
+                               child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/f351/310a/a237f2216042fe012abbb1d0abfc88f9?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EauKcgu~aO3D-46gn-wZY1YiDIo6XPiVS3Ww3m9j-x6cLo8IFfvi9tHxls7Xiccl6PX5pM6k2PI43awfwq66llh97mvsmpqPTgRtJKF11vzmNBYog35QQz38AcZOFYqx16MCGGUuWrRvr7SO3s1ODmAdWJ2ED0PEQCVzwemh8YbyqZb-p53crBA7DgDxzKRn~4tG20TMk0S55ebGZZ5SEBbAg-91cP9eLELZYfOXXinsoxeJZAPcfd1e20o~EtaPwTeEC9do5wmOT5rOKCpsoxrYMm6qnpEfdyJ2avEfssndtN0o9MTFskg2VgBsYZ~XFvRrk0H3KO-4XdKkAEQqDg__'),fit: BoxFit.cover),
                             ),
                           ),
                           Padding(
@@ -106,7 +107,7 @@ class SubscribersRow extends StatelessWidget{
                                   ),
                                 ],
                               ),
-                              child: SvgPicture.asset('assets/images/person1.svg',fit: BoxFit.cover,),
+                               child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/f351/310a/a237f2216042fe012abbb1d0abfc88f9?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EauKcgu~aO3D-46gn-wZY1YiDIo6XPiVS3Ww3m9j-x6cLo8IFfvi9tHxls7Xiccl6PX5pM6k2PI43awfwq66llh97mvsmpqPTgRtJKF11vzmNBYog35QQz38AcZOFYqx16MCGGUuWrRvr7SO3s1ODmAdWJ2ED0PEQCVzwemh8YbyqZb-p53crBA7DgDxzKRn~4tG20TMk0S55ebGZZ5SEBbAg-91cP9eLELZYfOXXinsoxeJZAPcfd1e20o~EtaPwTeEC9do5wmOT5rOKCpsoxrYMm6qnpEfdyJ2avEfssndtN0o9MTFskg2VgBsYZ~XFvRrk0H3KO-4XdKkAEQqDg__'),fit: BoxFit.cover),
                             ),
                           ),
                         ],
@@ -124,13 +125,16 @@ class SubscribersRow extends StatelessWidget{
   }
 }
 class ProjectHeaderRow extends StatelessWidget{
-  ProjectHeaderRow({super.key,});
+  final String header;
+  ProjectHeaderRow({super.key, required this.header,});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding:  EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 24,
@@ -138,7 +142,7 @@ class ProjectHeaderRow extends StatelessWidget{
             child: SvgPicture.asset('assets/images/format_quote.svg',fit: BoxFit.fill,),
           ),
           SizedBox(width: 4,),
-          Expanded(child: Text('Help break the cycle of poverty',style: TextStyle(color: buttonsColor,fontSize: 16,fontWeight: FontWeight.w500),maxLines: 2,overflow: TextOverflow.ellipsis,)),
+          Expanded(child: Text(header,style: TextStyle(color: buttonsColor,fontSize: 16,fontWeight: FontWeight.w500),maxLines: 2,overflow: TextOverflow.ellipsis,)),
         ],
       ),
     );
@@ -150,14 +154,14 @@ class DonationLogin extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 0,left: 0,top: 12,bottom: 12),
+      padding: EdgeInsets.only(right: 13,left: 13,top: 12,bottom: 12),
       child: Container(
         height: 52,
         width: double.infinity,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            color: buttonsColor
+            color:buttonsColor,
         ),
         child: ElevatedButton(
           style: ButtonStyle(
@@ -321,9 +325,9 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                             ),
                             isDense: true,
                             items:[
-                              DropdownMenuItem(child: Text('monthly'),value: 'monthly',),
-                              DropdownMenuItem(child: Text('yealry'),value: 'yealry',),
-                              DropdownMenuItem(child: Text('once'),value: 'once',),
+                              DropdownMenuItem(value: 'monthly',child: Text('monthly'),),
+                              DropdownMenuItem(value: 'yealry',child: Text('yearly'),),
+                              DropdownMenuItem(value: 'once',child: Text('once'),),
                             ],
                             value: selectedItem,
                             onChanged: (value) {
@@ -334,7 +338,7 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                             buttonStyleData: ButtonStyleData(
                               // height: 35,
                               width: 110,
-                              padding: const EdgeInsets.only(left: 10, right: 14),
+                              padding:  EdgeInsets.only(left: 10, right: 14),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
@@ -353,8 +357,9 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                               iconDisabledColor: Colors.grey,
                             ),
                             dropdownStyleData: DropdownStyleData(
-                              elevation: 2,
+                              elevation: 1,
                               maxHeight: 130,
+                              padding: EdgeInsetsDirectional.all(10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
@@ -363,7 +368,7 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                                 ),
                               ),
                               // offset: const Offset(0, -2),
-                              isOverButton: true,
+                              isOverButton: false,
                               scrollbarTheme: ScrollbarThemeData(
                                 radius: const Radius.circular(40),
                                 thickness: MaterialStateProperty.all(6),
@@ -373,7 +378,7 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                             ),
                             menuItemStyleData: const MenuItemStyleData(
                                 padding:
-                                EdgeInsetsDirectional.only(start: 0, end: 10),
+                                EdgeInsetsDirectional.only(start: 0, end: 0),
                                 height: 35
                             ),
                           ),

@@ -38,7 +38,9 @@ dependencies:
   flutter_svg:
   hexcolor:
   dropdown_button2:
+  cached_network_image:
   flutter_screenutil:
+  flutter_bloc:
   wtf_sliding_sheet: ^1.1.0
   dio:
   shared_preferences:

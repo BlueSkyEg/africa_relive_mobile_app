@@ -1,0 +1,9 @@
+String getType='';
+String getImage='';
+String getTitle='';
+String getH1='';
+String getH2='';
+String getH3='';
+String getB1='';
+String getB2='';
+String getB3='';
