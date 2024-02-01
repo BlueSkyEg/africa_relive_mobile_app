@@ -1,5 +1,8 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, curly_braces_in_flow_control_structures
 
+import 'package:africa_relief/view/componants/variable.dart';
+import 'package:africa_relief/view/screens/blogs_screen/blogs.dart';
+import 'package:africa_relief/view/screens/categories_screen/categories.dart';
 import 'package:africa_relief/view/screens/home_screen/home_cubit/home_cubit.dart';
 import 'package:africa_relief/view/screens/projects_screen/projects_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../../config/themes/colors.dart';
+import '../screens/single_blog_screen/single_blog.dart';
+import '../screens/single_project_screen/project_screen.dart';
 
 class SliderCard extends StatelessWidget{
    SliderCard({super.key});
@@ -83,11 +88,15 @@ class ProjectsCategories extends StatelessWidget{
                   borderRadius: BorderRadius.circular(16),
                   color: HexColor('F7F9FA')
               ),
-              child:   Image(image: NetworkImage(imagePath)),
+              child:   CachedNetworkImage(
+                imageUrl: imagePath,
+                placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: Text(lapel,style: TextStyle(fontSize: 12,),maxLines: 1,),
+              child: Text(lapel,style: TextStyle(fontSize: 12,),maxLines: 1,overflow: TextOverflow.ellipsis,),
             )
           ],
         ),
@@ -112,6 +121,7 @@ class ProjectsCategoriesRow extends StatelessWidget{
             padding:  EdgeInsets.symmetric(horizontal: 10.0),
             child: GestureDetector(
               onTap: () {
+                Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => CategoriesScreen(),));
               },
               child: Column(
                 children: [
@@ -142,8 +152,9 @@ class ProjectsCategoriesRow extends StatelessWidget{
 class HeaderAndSeeAllLin extends StatelessWidget{
   final String header;
   final String textButton;
-
-   HeaderAndSeeAllLin({super.key, required this.header, required this.textButton,});
+  final bool isProject;
+  final bool isBlogs;
+   HeaderAndSeeAllLin({super.key, required this.header, required this.textButton,  this.isProject=false,  this.isBlogs=false,});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -154,7 +165,10 @@ class HeaderAndSeeAllLin extends StatelessWidget{
           Spacer(),
           TextButton(
               onPressed: ()async{
-                Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => ProjectsScreen(),));
+                if(isProject)
+                  Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => ProjectsScreen(),));
+                if(isBlogs)
+                  Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => BlogsScreen(),));
               },
               child: Text(textButton,style: TextStyle(color: buttonsColor,fontSize: 14),)),
         ],
@@ -173,53 +187,73 @@ class ProjectList extends StatelessWidget{
         padding: EdgeInsetsDirectional.zero,
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) =>Stack(
-          alignment: Alignment.bottomLeft,
-          children: [
-            Container(
-              height: 230,
-              width: 180,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(.05),
-                  borderRadius: BorderRadius.circular(30)
+        itemBuilder: (context, index) =>GestureDetector(
+          onTap: () {
+            getType=HomeCubit.get(context).projects[index].type.toString();
+            getImage=HomeCubit.get(context).projects[index].image.toString();
+            getTitle=HomeCubit.get(context).projects[index].title.toString();
+            getH1=HomeCubit.get(context).projects[index].header1.toString();
+            getH2=HomeCubit.get(context).projects[index].header2.toString();
+            getH3=HomeCubit.get(context).projects[index].header3.toString();
+            getB1=HomeCubit.get(context).projects[index].body1.toString();
+            getB2=HomeCubit.get(context).projects[index].body2.toString();
+            getB3=HomeCubit.get(context).projects[index].body3.toString();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectScreen(),));
+            print(getType);
+          },
+          child: Stack(
+            alignment: Alignment.bottomLeft,
+            children: [
+              Container(
+                height: 230,
+                width: 180,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(.05),
+                    borderRadius: BorderRadius.circular(30)
+                ),
+                child: CachedNetworkImage(
+                  fit: BoxFit.fill,
+                  imageUrl: HomeCubit.get(context).projects[index].image.toString(),
+                  placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                )
               ),
-              child: Image(image: NetworkImage(HomeCubit.get(context).projects[index].image.toString()),fit: BoxFit.fill,),
-            ),
-            Padding(
-              padding:  EdgeInsets.only(bottom: 12.0,left: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    width:90,
-                    padding: EdgeInsets.all(8),
-                    decoration:BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors:  [
-                            Colors.black26,
-                            HexColor('1AFFFFFFF'),                            ],
-                        ),
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.grey.withOpacity(.1))
+              Padding(
+                padding:  EdgeInsets.only(bottom: 12.0,left: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width:90,
+                      padding: EdgeInsets.all(8),
+                      decoration:BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.topLeft,
+                            colors:  [
+                              Colors.black26,
+                              HexColor('1AFFFFFFF'),                            ],
+                          ),
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: Colors.grey.withOpacity(.1))
+                      ),
+                        child: Center(child: Text(HomeCubit.get(context).projects[index].type.toString(),style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w600),maxLines: 1,))),
+                    Padding(
+                      padding:  EdgeInsets.only(top:8.0),
+                      child: Container(
+                        padding: EdgeInsets.all(0),
+                        width:150,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          decoration: BoxDecoration(color: Colors.black.withOpacity(.05),borderRadius: BorderRadius.circular(5)),
+                          child: Text(HomeCubit.get(context).projects[index].title.toString(),style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w600),maxLines: 2,)),
                     ),
-                      child: Center(child: Text(HomeCubit.get(context).projects[index].type.toString(),style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w600),maxLines: 1,))),
-                  Padding(
-                    padding:  EdgeInsets.only(top:8.0),
-                    child: Container(
-                      padding: EdgeInsets.all(0),
-                      width:150,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        decoration: BoxDecoration(color: Colors.black.withOpacity(.05),borderRadius: BorderRadius.circular(5)),
-                        child: Text(HomeCubit.get(context).projects[index].title.toString(),style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w600),maxLines: 2,)),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
         separatorBuilder: (context, index) => SizedBox(width: 12,),
         itemCount: HomeCubit.get(context).projects.length,
@@ -230,19 +264,26 @@ class ProjectList extends StatelessWidget{
 }
 class UpdatesRow extends StatelessWidget{
   final String num;
-  UpdatesRow({super.key, required this.num});
+  final int index;
+  final bool isAll;
+  UpdatesRow({super.key, required this.num, required this.index,  this.isAll=false});
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Container(
-          height: 104,
+          height: 110,
           width: 90,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10)
           ),
-          child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/9852/c686/1545cdc2e519047f3297730cf3c27e18?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ujwj-kGZ5dtPRSe94XUapjwDQPI6vLEw8TbF9L9idd887TY0mjerwWCTdFivGvnljqscbXsOSf4XvYHuvDTFMIGpIG-QhDVCrdEm5qJxdE9ZGp7J2hraDy0dOJ6y9g8mnzMmwLjfs3H8NNHs1C~RYtBome-OTLfNpRI1KWEL9I~rnmIcoLAxqIUo-V3VZb2iH3s2CslNWhlqLXMLbnET4K9AoCuk9CzkQNNvzFLrO6pOhtLap0KP~ehYOCSq7i7OEb5UtbcNvSLGRpxZr7f06w7sqWfWp9fF9OSegnZhFBfp1CZmYix-HjLhvkP7Na2PeT1uZ-~O3n9gf3qPukeRKg__',),fit: BoxFit.fill),
+          child: CachedNetworkImage(
+            fit: BoxFit.fill,
+            imageUrl: HomeCubit.get(context).blogs[index].image.toString(),
+            placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
         ),
         Expanded(
             child: Padding(
@@ -263,7 +304,7 @@ class UpdatesRow extends StatelessWidget{
                                   color: HexColor('F1F7F3'),
                                   borderRadius: BorderRadius.circular(50)
                               ),
-                              child: Text('Education',style: TextStyle(color: buttonsColor,fontSize: 12),)),
+                              child: Text(HomeCubit.get(context).blogs[index].type.toString(),style: TextStyle(color: buttonsColor,fontSize: 12),)),
                         ),
                         Container(
                           height: 24,
@@ -275,7 +316,8 @@ class UpdatesRow extends StatelessWidget{
                           child: Text('Nov 22, 2023',style: TextStyle(color: HexColor('86898E'),fontSize: 12)),
                         ),
                         Spacer(),
-                        Padding(
+                        if(isAll==false)
+                          Padding(
                           padding:  EdgeInsets.only(right: 8),
                           child: Container(
                             padding: EdgeInsets.only(top: 2,right: 5,left: 5,bottom: 2),
@@ -288,7 +330,7 @@ class UpdatesRow extends StatelessWidget{
                       ],
                     ),
                   ),
-                  Text('Starting Small Businesses for Families',style: TextStyle(fontSize: 16),maxLines: 2,overflow: TextOverflow.ellipsis,)                          ],
+                  Text(HomeCubit.get(context).blogs[index].title.toString(),style: TextStyle(fontSize: 16),maxLines: 2,overflow: TextOverflow.ellipsis,)                          ],
               ),
             ))
       ],
@@ -302,8 +344,21 @@ class UpdatesList extends StatelessWidget{
     return PageView.builder(
       scrollDirection: Axis.horizontal,
       physics: BouncingScrollPhysics(),
-      itemBuilder: (context, index) => UpdatesRow(num: '${index+1}',),
-      itemCount: 10,
+      itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            getBlogsH1=HomeCubit.get(context).blogs[index].header1.toString();
+            getBlogsH2=HomeCubit.get(context).blogs[index].header2.toString();
+            getBlogsB1=HomeCubit.get(context).blogs[index].body1.toString();
+            getBlogsB2=HomeCubit.get(context).blogs[index].body2.toString();
+            getBlogsType=HomeCubit.get(context).blogs[index].type.toString();
+            getBlogsTitle=HomeCubit.get(context).blogs[index].title.toString();
+            blogsImagesList=HomeCubit.get(context).blogs[index].image2!.toList();
+            Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => SingleBlogScreen(),));
+
+
+          },
+          child: UpdatesRow(num: '${index+1}',index: index,)),
+      itemCount: HomeCubit.get(context).blogs.length,
     );
   }
 }

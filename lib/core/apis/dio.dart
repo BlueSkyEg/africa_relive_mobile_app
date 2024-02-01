@@ -7,17 +7,17 @@ class DioHelper {
   static init (){
     dio = Dio(
         BaseOptions(
-          baseUrl: 'https://insights.cpapai.com',
+          baseUrl: 'https://api.stripe.com/',
           receiveDataWhenStatusError: true,
         )
     );
   }
-  static Future<Response> getData({required String? url , Map<String,dynamic>? query , String? lang=' en ',String? token})
+  static Future<Response> getData({required String? url , Map<String,dynamic>? query , String? lang=' en ',String? token,String? content})
   async{
     dio!.options.headers={
       'lang':lang,
       'Authorization':token??'',
-      'content-type':'application/json'
+      'content-type':content??'application/json'
     };
     return await dio!.get
       (
@@ -25,12 +25,12 @@ class DioHelper {
         queryParameters: query
     );
   }
-  static Future<Response> postData({required String? url, Map<String,dynamic>? query,required Map<String,dynamic> data,String? lang= 'en',String? token })
+  static Future<Response> postData({required String? url, Map<String,dynamic>? query,required Map<String,dynamic> data,String? lang= 'en',String? token ,String? content})
   async{
     dio!.options.headers={
       'lang':lang,
       'Authorization':token??'',
-      'content-type':'application/json'
+      'content-type':content??'application/json'
     };
     return await dio!.post(
         url!,

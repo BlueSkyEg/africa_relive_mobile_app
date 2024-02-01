@@ -2,6 +2,7 @@
 
 import 'package:africa_relief/view/componants/variable.dart';
 import 'package:africa_relief/view/screens/single_project_screen/project_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -52,7 +53,12 @@ class CardOfGridviewOfProjects extends StatelessWidget{
                   color: Colors.black.withOpacity(.05),
                   borderRadius: BorderRadius.circular(30)
               ),
-              child: Image(image: NetworkImage(image),fit: BoxFit.fill,),
+              child: CachedNetworkImage(
+                fit: BoxFit.fill,
+                imageUrl: image,
+                placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
             Padding(
               padding:  EdgeInsets.only(bottom: 12.0,left: 12),
@@ -152,7 +158,12 @@ class RowOfProjectsFilter extends StatelessWidget{
             Container(
               height: 22,
               width: 22,
-              child: Image(image: NetworkImage(imagePath)),
+              child: CachedNetworkImage(
+                // fit: BoxFit.fill,
+                imageUrl: imagePath,
+                placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
             Padding(
               padding:  EdgeInsets.only(left: 8,top: 0.0,right: 8),

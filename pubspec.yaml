@@ -40,12 +40,16 @@ dependencies:
   dropdown_button2:
   cached_network_image:
   flutter_screenutil:
+  stylish_bottom_bar:
   flutter_bloc:
+  carousel_slider:
+  hidable:
   wtf_sliding_sheet: ^1.1.0
   dio:
   shared_preferences:
   bloc:
   smooth_page_indicator:
+  flutter_stripe:
 
 dev_dependencies:
   flutter_test:

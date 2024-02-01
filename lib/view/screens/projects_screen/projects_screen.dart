@@ -4,6 +4,7 @@ import 'package:africa_relief/view/screens/home_screen/home_cubit/home_cubit.dar
 import 'package:africa_relief/view/screens/home_screen/home_cubit/home_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../componants/app_widgets.dart';
 import '../../componants/projects_widgets.dart';
 
 class ProjectsScreen extends StatelessWidget{
@@ -15,33 +16,12 @@ class ProjectsScreen extends StatelessWidget{
       child: BlocConsumer<HomeCubit,HomeStates>(
         builder: (BuildContext context, HomeStates state)=>Scaffold(
           appBar: PreferredSize(
-            preferredSize:Size.fromHeight(20),
-            child: AppBar(
-              leading:Container(),
-              leadingWidth: MediaQuery.of(context).size.width/2,
-            ),
-          ),
+              preferredSize:Size.fromHeight(40),child: CustomAppBar(text: 'Our Projects')),
           body: Padding(
-            padding:  EdgeInsets.only(left: 13.0,right: 13,bottom: 13),
+            padding:  EdgeInsets.only(left: 13.0,right: 13,bottom: 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding:  EdgeInsets.only(left: 8.0,bottom: 8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(Icons.arrow_back_ios,size: 20,color: Colors.black,),),
-                      Padding(
-                        padding:  EdgeInsets.only(left: 20.0,top: 0),
-                        child: Text('Our Projects',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),maxLines: 1,),
-                      ),
-                    ],
-                  ),
-                ),
                 FilterList(),
                 ProjectsGridView(),
               ],

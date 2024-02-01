@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_unnecessary_containers
 
+import 'package:africa_relief/view/componants/variable.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,8 @@ class SubscribersRow extends StatelessWidget{
 }
 class ProjectHeaderRow extends StatelessWidget{
   final String header;
-  ProjectHeaderRow({super.key, required this.header,});
+  final bool isProjectHeadColor;
+  ProjectHeaderRow({super.key, required this.header,  this.isProjectHeadColor=true,});
 
   @override
   Widget build(BuildContext context) {
@@ -136,13 +138,16 @@ class ProjectHeaderRow extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          if(isProjectHeadColor)
+            Container(
             height: 24,
             width: 24,
             child: SvgPicture.asset('assets/images/format_quote.svg',fit: BoxFit.fill,),
           ),
+          if(isProjectHeadColor)
+
           SizedBox(width: 4,),
-          Expanded(child: Text(header,style: TextStyle(color: buttonsColor,fontSize: 16,fontWeight: FontWeight.w500),maxLines: 2,overflow: TextOverflow.ellipsis,)),
+          Expanded(child: Text(header,style: TextStyle(color: isProjectHeadColor?buttonsColor:Colors.black,fontSize: 16,fontWeight: FontWeight.w500),maxLines: 3,overflow: TextOverflow.ellipsis,)),
         ],
       ),
     );
@@ -192,7 +197,7 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
   Widget build(BuildContext context) {
     return Container(
       color: HexColor('F7F9FA'),
-      height: 300.h,
+      height: 320.h,
       child: SingleChildScrollView(
         child: Padding(
           padding:  EdgeInsets.all(12.0),
@@ -433,6 +438,71 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                   ],
                 ),
               )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+class ProjectParagraph extends StatelessWidget{
+  ProjectParagraph({super.key,});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:  EdgeInsets.only(top: 200,right: 0,left: 0),
+      child: Container(
+        // height:double.infinity,
+        width: double.infinity,
+        padding: EdgeInsets.all(13),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30))
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(child: Text(getTitle,maxLines: 2,style: TextStyle(fontSize: 24,fontWeight: FontWeight.w500),)),
+                  ProjectTypeText(projectTypeText: getType),
+                ],
+              ),
+              SubscribersRow(),
+              ProjectHeaderRow(header: getH1),
+              SizedBox(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      Text(getB1,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16),),
+                    ],
+                  ),
+                ),
+              ),
+              ProjectHeaderRow(header: getH2),
+              SizedBox(
+                child: SingleChildScrollView(
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      Text(getB2,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16),),
+                    ],
+                  ),
+                ),
+              ),
+              ProjectHeaderRow(header: getH3),
+              Column(
+                children: [
+                  Text(getB3,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16),),
+                ],
+              ),
+              SizedBox(height: 65,)
             ],
           ),
         ),

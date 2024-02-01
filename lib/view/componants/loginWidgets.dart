@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../../config/themes/colors.dart';
 import '../../config/themes/icons.dart';
+import '../screens/navigation_main_screen/navigation_screen.dart';
 
 class LoginWays extends StatelessWidget{
   final String imagePath;
@@ -203,7 +204,7 @@ class SkipButton extends StatelessWidget{
   Widget build(BuildContext context) {
     return Center(child: GestureDetector(
       onTap: () {
-        Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => HomeScreen(),));
+        Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => Home(),));
       },
       child: Container(
         height: 29,

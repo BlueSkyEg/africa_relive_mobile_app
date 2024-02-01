@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget{
       child: BlocConsumer<HomeCubit,HomeStates>(
         builder: (context, state) => Scaffold(
           body: Padding(
-            padding: const EdgeInsets.only(left:10.0,right: 10,top: 60,bottom: 14),
+            padding: const EdgeInsets.only(left:10.0,right: 10,top: 60,bottom: 0),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -43,12 +43,14 @@ class HomeScreen extends StatelessWidget{
                     ],
                   ),
                   ProjectsCategoriesRow(),
-                  HeaderAndSeeAllLin(header: 'Our Projects', textButton: 'See All',),
+                  HeaderAndSeeAllLin(header: 'Our Projects', textButton: 'See All',isProject: true),
                   ProjectList(),
-                  HeaderAndSeeAllLin(header: 'Latest Updates', textButton: 'See All',),
+                  HeaderAndSeeAllLin(header: 'Latest Updates', textButton: 'See All',isBlogs: true),
                   SizedBox(
                       height: 105,
-                      child: UpdatesList())
+                      child: UpdatesList()),
+                  SizedBox(height: 0,)
+
                 ],
               ),
             ),

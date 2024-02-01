@@ -13,7 +13,6 @@ import 'home_states.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit() : super(HomeInitialState());
-
   static HomeCubit get(context) => BlocProvider.of(context);
   List<ProjectsData> projects = [
     ProjectsData(
@@ -109,336 +108,83 @@ class HomeCubit extends Cubit<HomeStates> {
     ),
 
   ];
-  // final List<BalanceData> testProfit = [
-  //       BalanceData(
-  //           accountType: 'first',
-  //           accountDetails: [
-  //                 AccountDetail(
-  //                     name:'1',
-  //                     amounts: {
-  //                           "1": -20.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 1,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'2',
-  //                     amounts: {
-  //                           "1": -30.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 2,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'3',
-  //                     amounts: {
-  //                           "1": -40.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 3,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'4',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -5836.33}),
-  //           ]
-  //
-  //       ),
-  //       BalanceData(
-  //           accountType: 'second',
-  //           accountDetails: [
-  //                 AccountDetail(
-  //                     name:'first',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'second',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'theird',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'fourth',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -9,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -6836.33}),
-  //           ]
-  //
-  //       ),
-  //       BalanceData(
-  //           accountType: 'theird',
-  //           accountDetails: [
-  //                 AccountDetail(
-  //                     name:'first',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'second',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'theird',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'fourth',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -7836.33}),
-  //           ]
-  //
-  //       ),
-  //       BalanceData(
-  //           accountType: 'fourth',
-  //           accountDetails: [
-  //                 AccountDetail(
-  //                     name:'first',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'second',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'theird',
-  //                     amounts: {
-  //                           "1": -80.86,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -4836.33}),
-  //                 AccountDetail(
-  //                     name:'fourth',
-  //                     amounts: {
-  //                           "1": -2,
-  //                           "2": -416.55,
-  //                           "3": -68.87,
-  //                           "4": -3867.52,
-  //                           "5": -89.65,
-  //                           "6": 0,
-  //                           "7": -201.11,
-  //                           "8": -111.77,
-  //                           "9": 0,
-  //                           "10": 0,
-  //                           "11": 0,
-  //                           "12": 0,
-  //                           "total": -8836.33}),
-  //           ]
-  //
-  //       ),
-  //       BalanceData(
-  //           accountType: 'fifth',
-  //           amounts: {
-  //                 "1": -80.86,
-  //                 "2": -416.55,
-  //                 "3": -68.87,
-  //                 "4": -3867.52,
-  //                 "5": -89.65,
-  //                 "6": 0,
-  //                 "7": -201.11,
-  //                 "8": -111.77,
-  //                 "9": 0,
-  //                 "10": 0,
-  //                 "11": 0,
-  //                 "12": 0,
-  //                 "total": -9836.33}
-  //
-  //       ),
-  // ];
+  List<ProjectsData> blogs = [
+    ProjectsData(
+      id: 1,
+      type: 'Education',
+      title: 'Salah Alzoobi Mosque',
+      image: 'https://africa-relief.org/wp-content/uploads/2023/09/Szuabi6-scaled.jpg',
+      image2: [
+        // 'https://africa-relief.org/wp-content/uploads/2023/09/Szuabi6-scaled.jpg'
+        'https://africa-relief.org/wp-content/uploads/2023/09/Szuabi5-scaled.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Szuabi.jpeg',
+        // 'https://africa-relief.org/wp-content/uploads/2023/09/Szuabi4-scaled.jpeg'
+      ],
+      body1: 'In regions where access to quality education is a challenge, the establishment of an 8-room school equipped with a water well becomes a beacon of hope. This project not only provides a comprehensive educational setting for the community but also ensures students have access to clean water, a basic necessity often taken for granted. During the opening, the joy was palpable as donors interacted with the eager children and gifted school bags.',
+      body2: 'Over 300 students.',
+      header1: 'Empower a child’s future through education and health. Your support can light up their world.',
+      header2: 'Beneficiaries:',
+    ),
+    ProjectsData(
+      id: 2,
+      type: 'Food Aid',
+      title: 'Nurturing Families: Meat Distribution Initiative',
+      image: 'https://africa-relief.org/wp-content/uploads/2023/10/Zabiha.jpg',
+      image2: ['https://africa-relief.org/wp-content/uploads/2023/10/Zabiha.jpg',],
+      body1: 'Protein-rich diets can be hard to come by in certain Tanzanian regions. Our meat distribution initiative is more than just a meal—it’s nourishment, care, and a reminder to families that they aren’t alone. Especially in areas where meals are often limited and basic, such distributions make a world of difference.',
+      body2: '15 families, with an average family size of 7.',
+      header1: 'Gift the joy of a hearty meal. Your generosity fills plates and hearts.',
+      header2: 'Beneficiaries:',
+    ),
+    ProjectsData(
+      id: 3,
+      type: 'Water',
+      title: 'Mariame Diawara and Fatoumata Tiemoko Well',
+      image: 'https://africa-relief.org/wp-content/uploads/2023/09/Mariame6.jpeg',
+      image2: [
+        'https://africa-relief.org/wp-content/uploads/2023/09/Mariame6.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Mariame4.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Mariame2.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Mariame.jpeg'
+      ],
+      body1: 'In regions affected by water scarcity, every drop counts. These solar water wells, dedicated in honor of Mariame Diawara and Fatoumata Tiemoko, ensure that hundreds have access to clean, safe water. Beyond hydration, these wells represent hope, health, and a tribute to beloved individuals.',
+      body2: '600-800 individuals.',
+      header1: 'Sun and water are the essence of life. Illuminate lives with your support.',
+      header2: 'Beneficiaries:',
+    ),
+    ProjectsData(
+      id: 4,
+      type: 'Health',
+      title: 'Strategic Partnerships in Tanzania',
+      image: 'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania2.jpeg',
+      image2: [
+        'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania2.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania5.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania4.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania3.jpeg'
+      ],
+      body1: 'The Africa Relief team has made significant strides in our ongoing efforts to enhance healthcare services in Tanzania. Our visit to the office of the Deputy Minister of Health promises our inclusion in their 2024 plan focusing on eye and hearing operations. This collaboration further extends to equipping hospitals in alignment with the ministry’s vision. We also had a productive discussion with an education official, which may lead to a partnership with the Ministry of Education in the future.Outcomes of the Meeting:Inclusion in the Health Ministry’s 2024 plan for eye and hearing operations. Equipping hospitals in collaboration with the ministry. Signed a partnership agreement with Charity Vision and LEP. Launch of the “Hear and See” program. Possible cooperation avenues with the Ministry of Education.',
+      body2: 'Patients needing eye and hearing treatments, hospitals that will benefit from enhanced equipment/resources, and educational beneficiaries from potential collaboration with the Ministry of Education.',
+      header1: 'As we venture into these strategic partnerships, your unwavering support aids us in reaching broader horizons and ensuring better health and education for all.',
+      header2: 'Beneficiaries:',
+    ),
+    ProjectsData(
+      id: 5,
+      type: 'Orphan Support',
+      title: 'Strengthening Partnerships in Ghana',
+      image: 'https://africa-relief.org/wp-content/uploads/2023/08/20230821_140424-2048x922.jpg',
+      image2: [
+        'https://africa-relief.org/wp-content/uploads/2023/08/20230821_140424-2048x922.jpg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania5.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania4.jpeg',
+        'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania3.jpeg'
+      ],
+      body1: 'Africa Relief had the honor of meeting with the Minister of Social Affairs and key officials at the ministry’s headquarters in Ghana. This vital meeting explored mutual areas of interest, from introducing our mission to discussing specific collaborative efforts aimed at bettering the lives of the under-resourced Ghanaian community.Key Discussions:Africa Relief’s role and ambitions in Ghana, highlighting our broader goals across the African continent. Containers shipped to Ghana, with some already delivered. Procedures for customs exemption certificates to expedite our future relief efforts. A crucial topic was the support for orphans, and the ministry provided valuable data on how we can engage and support them better. A comprehensive partnership between Africa Relief and the ministry, influencing various service departments in Ghana. Outcomes of the Meeting: The approval and coordination of educational container distributions, with documents provided for each designated area. Three of the educational containers will be specifically channeled for our specialized centers. A timeline is set to clear all containers by September 1st. A medical clinic will be gifted to the government as a gesture of goodwill from Africa Relief. A comprehensive customs exemption certificate will be issued for our containers related to a multitude of sectors, streamlining our operations. For medical convoy missions, excluding imminent ones, there will be tight-knit coordination with hospitals and the Ministry of Health to pinpoint the most needy locations. We have a clearer understanding of the orphan situation, with current records indicating 6,000 orphans across Ghana.',
+      body2: 'Immediate beneficiaries encompass the institutions awaiting our containers, educational facilities, medical facilities, and notably, the 6,000 registered orphans in Ghana.',
+      header1: 'This partnership reflects our commitment to driving impactful change. Your continued support ensures that such collaborations flourish, enabling us to reach more communities and touch more lives.',
+      header2: 'Beneficiaries:',
+    ),
+  ];
   bool isClicked = false;
-  // void GetProfitSheet(context) async {
-  //   emit(GetProfitStateLoading());
-  //   Token= await CashHelper.getData(key: 'token');
-  //   ProfileCubit.get(context).GetUserprofile();
-  //   year= await CashHelper.getData(key: 'year') ?? ProfileCubit.get(context).profile!.data!.intialCompany!.plYears!.first.toString();
-  //   idCompany= await CashHelper.getData(key: 'idCompany') ?? ProfileCubit.get(context).profile!.data!.intialCompany!.id.toString();
-  //   DioHelper.getData(url: '/api/reports/pl/company/$idCompany/year/$year',token: 'Bearer $Token')
-  //       .then((value) {
-  //     var valueData = value.data['data'] as List;
-  //     valueData.forEach((element) {
-  //       Profit.add(BalanceData.fromJson(element));
-  //     });
-  //     emit(GetProfitStateSuccess());
-  //   }).catchError((error) {
-  //     print(error.toString());
-  //     emit(GetProfitStateError(error));
-  //   });
-  // }
+
 }
-// ProjectsData(
-// id: 1,
-// type: '',
-// title: ' ',
-// description: '',
-// image: '',
-// body1: '',
-// header1: '',
-// body2: '',
-// header2: '',
-// body3: '',
-// header3: '',
-// ),

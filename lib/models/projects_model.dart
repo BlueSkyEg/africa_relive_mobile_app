@@ -32,6 +32,7 @@ class ProjectsData {
   String? description;
   String? type;
   String? image;
+  List <String>? image2;
   String? header1;
   String? body1;
   String? header2;
@@ -46,7 +47,7 @@ class ProjectsData {
         this.type,
       this.header1,this.header2,this.header3,
       this.body1,this.body2,this.body3,
-      this.image,this.title
+      this.image,this.title,this.image2
       });
 
   ProjectsData.fromJson(Map<String, dynamic> json) {
@@ -59,6 +60,7 @@ class ProjectsData {
     body2 = json['body2'];
     body3 = json['body3'];
     image=json['image'];
+    image2=List<String>.from(json["image2"].map((x) => x));
     type=json['type'];
 
   }
@@ -75,6 +77,7 @@ class ProjectsData {
     data['body2'] = this.body2;
     data['body3'] = this.body3;
     data['image'] = this.image;
+    data['image2'] = List<dynamic>.from(image2!.map((x) => x));
     return data;
   }
 }
