@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../config/themes/colors.dart';
+import '../../../models/projects_model.dart';
 import '../../componants/blogs_widgets.dart';
 import '../../componants/projects_widgets.dart';
 import '../home_screen/home_cubit/home_cubit.dart';
@@ -22,6 +24,24 @@ class BlogsScreen extends StatefulWidget{
 }
 
 class _BlogsScreenState extends State<BlogsScreen> {
+  ScrollController filterController=ScrollController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    blogs=HomeCubit.get(context).blogs;
+    if(filter=='Food Aid'||filter=='Education'||filter=='')
+      s=0;
+    if(filter=='Medical'||filter=='Water'||filter=='Zakat')
+      s=1;
+    if(filter=='Orphan Support'||filter=='Ramadan')
+      s=2;
+    super.initState();
+  }
+  void UpdateValue (String value){
+    setState(() {
+      blogs=HomeCubit.get(context).blogs.where((element) => element.type!.contains(value)).toList();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -29,7 +49,7 @@ class _BlogsScreenState extends State<BlogsScreen> {
       child: BlocConsumer<HomeCubit,HomeStates>(
         builder: (BuildContext context, HomeStates state)=>Scaffold(
           appBar: PreferredSize(
-              preferredSize:Size.fromHeight(40),child: CustomAppBar(text: 'Latest Updates ')),
+              preferredSize:Size.fromHeight(10),child: AppBar()),
           body: SingleChildScrollView(
             // physics: NeverScrollableScrollPhysics(),
             child: Padding(
@@ -37,8 +57,27 @@ class _BlogsScreenState extends State<BlogsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FilterList(),
-                  ProjectsList()
+                  FilterList(
+                    filterController: filterController,
+                    onAllTap: (){
+                      setState(() {
+                        filter='';
+                        blogs=HomeCubit.get(context).blogs;
+                      });
+                    },
+                    onfoodTap: UpdateValue,
+                    food: 'Food Aid',
+                    water: 'Water',
+                    education: 'Education',
+                    medical: 'Medical',
+                    orphan: 'Orphan Support',
+                    zakat: 'Zakat',
+                    ramadan: 'Ramadan',
+                  ),
+                  if(blogs.isNotEmpty)
+                    ProjectsList(blogs: blogs,),
+                  if(blogs.isEmpty)
+                    Center(child: Text('No Projects Yet...',style: TextStyle(color: greyTextColor,fontSize: 14),))
                 ],
               ),
             ),
@@ -51,3 +90,4 @@ class _BlogsScreenState extends State<BlogsScreen> {
     );
   }
 }
+ List<ProjectsData> blogs=[];

@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../../core/apis/dio.dart';
 import '../../../../models/projects_model.dart';
+import '../../../componants/payments_widgets.dart';
+import '../../../componants/variable.dart';
 import 'home_states.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
@@ -27,6 +30,13 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'How is ARCD\'s Relief responding?',
       body3: 'In the heart of every Educational Center lies the seed of change, nurturing minds and fostering brighter tomorrows.Your support propels , enabling education for all and fostering a more empowered, educated Africa.',
       header3: 'Education: Building Bridges, Transforming Lives',
+      amounts: [
+        690,
+        920,
+        1150,
+        27600
+      ],
+
     ),
     ProjectsData(
       id: 2,
@@ -40,6 +50,12 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'How is ARCD\'s Relief responding?',
       body3: 'A Surface water well can be the community’s Lifeline',
       header3: 'A Surface water well can be the community\'s Lifeline',
+      amounts: [
+        100,
+        300,
+        500,
+        2500,
+      ],
     ),
     ProjectsData(
       id: 3,
@@ -53,6 +69,12 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'How is ARCD\'s Relief responding?',
       body3: 'Your generosity powers ARCD’s Relief food aid Projects, where each donation transcends empathy to provide sustenance, erasing the shadows of hunger. Join us and witness the profound impact of your support—illuminating lives and forging a path toward a future free from hunger.',
       header3: 'Your Donation. Their Nourishment',
+      amounts: [
+        75,
+        150,
+        300,
+        500,
+      ],
     ),
     ProjectsData(
       id: 4,
@@ -66,6 +88,12 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'How is ARCD\'s Relief responding?',
       body3: 'Supplying essential medical resources and equipment, ensuring continuous support for communities in need.',
       header3: 'Critical Aid Needed:',
+      amounts: [
+        100,
+        200,
+        500,
+        1000
+      ],
     ),
     ProjectsData(
       id: 5,
@@ -79,6 +107,13 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'How is ARCD\'s Relief responding?',
       body3: 'Your donation directly impacts an orphan’s life, providing essentials like education, healthcare, and emotional support. Your generosity fosters resilience and empowers them to thrive despite challenges.',
       header3: 'Your donation nurturing Futures',
+      amounts: [
+        50,
+        150,
+        300,
+        600
+      ],
+
     ),
     ProjectsData(
       id: 6,
@@ -92,6 +127,11 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'How is ARCD\'s Relief responding?',
       body3: 'Your Zakat Al-Mal donation aids in education, healthcare, and economic empowerment, fostering stability and growth for underprivileged communities.',
       header3: 'Your Contribution. Their Progress.',
+      amounts: [
+        50,
+        100,
+        500,
+      ],
     ),
     ProjectsData(
       id: 7,
@@ -105,6 +145,12 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'How is ARCD\'s Relief responding?',
       body3: 'Your donation directly supports families in need, ensuring they have access to wholesome meals during Ramadan. Your generosity fosters a sense of community and provides nourishment when it’s needed most.',
       header3: 'Sharing an Iftar Meal, Enhancing Unity.',
+      amounts: [
+        30,
+        900,
+        300,
+        900
+      ],
     ),
 
   ];
@@ -154,7 +200,7 @@ class HomeCubit extends Cubit<HomeStates> {
     ),
     ProjectsData(
       id: 4,
-      type: 'Health',
+      type: 'Medical',
       title: 'Strategic Partnerships in Tanzania',
       image: 'https://africa-relief.org/wp-content/uploads/2023/09/Tanzania2.jpeg',
       image2: [
@@ -185,6 +231,20 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'Beneficiaries:',
     ),
   ];
+  void UserLogin(){
+    emit(GetLoginStateLoading());
+    DioHelper.postData(url:'/create-single-charge',data: {
+      'paymentMethodId':pay,
+      'amount':amount,
+      'paymentDescription':getTitle
+    }).then((value) {
+      emit(GetLoginStateSuccess());
+    }).catchError((error){
+      print(error.toString());
+      emit(GetLoginStateError(error));
+    });
+  }
+
   bool isClicked = false;
 
 }

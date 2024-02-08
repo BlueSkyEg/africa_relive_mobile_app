@@ -1,15 +1,19 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, curly_braces_in_flow_control_structures
 
+import 'package:africa_relief/view/componants/projects_widgets.dart';
 import 'package:africa_relief/view/componants/variable.dart';
 import 'package:africa_relief/view/screens/blogs_screen/blogs.dart';
 import 'package:africa_relief/view/screens/categories_screen/categories.dart';
 import 'package:africa_relief/view/screens/home_screen/home_cubit/home_cubit.dart';
+import 'package:africa_relief/view/screens/navigation_main_screen/app_cubit/app_cubit.dart';
 import 'package:africa_relief/view/screens/projects_screen/projects_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../../config/themes/colors.dart';
+import '../../models/projects_model.dart';
+import '../screens/navigation_main_screen/navigation_screen.dart';
 import '../screens/single_blog_screen/single_blog.dart';
 import '../screens/single_project_screen/project_screen.dart';
 
@@ -77,6 +81,9 @@ class ProjectsCategories extends StatelessWidget{
       padding:  EdgeInsets.symmetric(horizontal: 10.0),
       child: GestureDetector(
         onTap: () {
+          filter=lapel;
+          currantScreen=1;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
         },
         child: Column(
           children: [
@@ -149,33 +156,45 @@ class ProjectsCategoriesRow extends StatelessWidget{
   }
 
 }
-class HeaderAndSeeAllLin extends StatelessWidget{
+class HeaderAndSeeAllLin extends StatefulWidget{
   final String header;
   final String textButton;
   final bool isProject;
   final bool isBlogs;
    HeaderAndSeeAllLin({super.key, required this.header, required this.textButton,  this.isProject=false,  this.isBlogs=false,});
+
+  @override
+  State<HeaderAndSeeAllLin> createState() => _HeaderAndSeeAllLinState();
+}
+
+class _HeaderAndSeeAllLinState extends State<HeaderAndSeeAllLin> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 12),
       child: Row(
         children: [
-          Text(header,style: TextStyle(fontSize: 20),),
+          Text(widget.header,style: TextStyle(fontSize: 20),),
           Spacer(),
           TextButton(
               onPressed: ()async{
-                if(isProject)
-                  Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => ProjectsScreen(),));
-                if(isBlogs)
-                  Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => BlogsScreen(),));
+                setState(() {
+                  if(widget.isProject)
+                    currantScreen=1;
+                  if(widget.isProject)
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),));
+                  if(widget.isBlogs)
+                    currantScreen=2;
+                  if(widget.isBlogs)
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),));
+
+                });
               },
-              child: Text(textButton,style: TextStyle(color: buttonsColor,fontSize: 14),)),
+              child: Text(widget.textButton,style: TextStyle(color: buttonsColor,fontSize: 14),)),
         ],
       ),
     );
   }
-
 }
 class ProjectList extends StatelessWidget{
    ProjectList({super.key});
@@ -198,6 +217,8 @@ class ProjectList extends StatelessWidget{
             getB1=HomeCubit.get(context).projects[index].body1.toString();
             getB2=HomeCubit.get(context).projects[index].body2.toString();
             getB3=HomeCubit.get(context).projects[index].body3.toString();
+            projectAmountsList=HomeCubit.get(context).projects[index].amounts!.toList();
+            amount=HomeCubit.get(context).projects[index].amounts!.first;
             Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectScreen(),));
             print(getType);
           },
@@ -262,11 +283,12 @@ class ProjectList extends StatelessWidget{
   }
 
 }
-class UpdatesRow extends StatelessWidget{
+class BlogsRowBuilder extends StatelessWidget{
   final String num;
   final int index;
   final bool isAll;
-  UpdatesRow({super.key, required this.num, required this.index,  this.isAll=false});
+  final List<ProjectsData> blogs;
+  BlogsRowBuilder({super.key, required this.num, required this.index,  this.isAll=false, required this.blogs});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -280,7 +302,7 @@ class UpdatesRow extends StatelessWidget{
           ),
           child: CachedNetworkImage(
             fit: BoxFit.fill,
-            imageUrl: HomeCubit.get(context).blogs[index].image.toString(),
+            imageUrl:blogs[index].image.toString(),
             placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
             errorWidget: (context, url, error) => Icon(Icons.error),
           ),
@@ -304,7 +326,7 @@ class UpdatesRow extends StatelessWidget{
                                   color: HexColor('F1F7F3'),
                                   borderRadius: BorderRadius.circular(50)
                               ),
-                              child: Text(HomeCubit.get(context).blogs[index].type.toString(),style: TextStyle(color: buttonsColor,fontSize: 12),)),
+                              child: Text(blogs[index].type.toString(),style: TextStyle(color: buttonsColor,fontSize: 12),)),
                         ),
                         Container(
                           height: 24,
@@ -330,15 +352,15 @@ class UpdatesRow extends StatelessWidget{
                       ],
                     ),
                   ),
-                  Text(HomeCubit.get(context).blogs[index].title.toString(),style: TextStyle(fontSize: 16),maxLines: 2,overflow: TextOverflow.ellipsis,)                          ],
+                  Text(blogs[index].title.toString(),style: TextStyle(fontSize: 16),maxLines: 2,overflow: TextOverflow.ellipsis,)                          ],
               ),
             ))
       ],
     );
   }
 }
-class UpdatesList extends StatelessWidget{
-  UpdatesList({super.key});
+class BlogsList extends StatelessWidget{
+  BlogsList({super.key});
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
@@ -357,7 +379,7 @@ class UpdatesList extends StatelessWidget{
 
 
           },
-          child: UpdatesRow(num: '${index+1}',index: index,)),
+          child: BlogsRowBuilder(num: '${index+1}',index: index,blogs: HomeCubit.get(context).blogs,)),
       itemCount: HomeCubit.get(context).blogs.length,
     );
   }

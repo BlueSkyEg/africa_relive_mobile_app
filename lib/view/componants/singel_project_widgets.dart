@@ -5,10 +5,14 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../config/themes/colors.dart';
+import '../../core/apis/dio.dart';
+import '../../core/stripe_payment/stripe_payment_manager.dart';
+import '../../models/payment_intint_model.dart';
 import '../screens/single_project_screen/project_screen.dart';
 
 class ProjectTypeText extends StatelessWidget{
@@ -181,7 +185,8 @@ class DonationLogin extends StatelessWidget{
   }
 }
 class DonationBottomSheet extends StatefulWidget{
-  DonationBottomSheet({super.key,});
+   void Function()? onTap;
+  DonationBottomSheet({super.key,this.onTap});
 
   @override
   State<DonationBottomSheet> createState() => _DonationBottomSheetState();
@@ -189,7 +194,6 @@ class DonationBottomSheet extends StatefulWidget{
 class _DonationBottomSheetState extends State<DonationBottomSheet> {
   bool first=false;
   bool second=false;
-
   bool third=false;
   bool isChecked=false;
 
@@ -224,76 +228,35 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                   child: Center(child: Text('\$ Custom Amount')),
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 5.0),
-                      child: GestureDetector (
-                        onTap: (){
-                          setState(() {
-                            first=true;
-                            second=false;
-                            third=false;
-                          });
-                        },
-                        child: Container(
-                          height: 44.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: first?buttonsColor:borderColor),
-                          ),
-                          child: Center(child: Text('\$ 50')),
+              Container(
+                height: 44.h,
+                width: double.infinity,
+                child: ListView.builder(
+                  padding: EdgeInsets.all(0),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) =>  Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: 5.0),
+                    child: GestureDetector (
+                      onTap: (){
+                        setState(() {
+                          amount=projectAmountsList[index];
+                          third=false;
+                        });
+                      },
+                      child: Container(
+                        height: 44.h,
+                        width: 105,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(color: amount==projectAmountsList[index]?buttonsColor:borderColor),
                         ),
+                        child: Center(child: Text('\$ ${projectAmountsList[index]}')),
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 5.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            first=false;
-                            second=true;
-                            third=false;
-                          });
-                        },
-                        child: Container(
-                          height: 44.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: second?buttonsColor:borderColor),
-                          ),
-                          child: Center(child: Text('\$ 100')),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 5.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            first=false;
-                            second=false;
-                            third=true;
-                          });
+                  itemCount: projectAmountsList.length,
 
-                        },
-                        child: Container(
-                          height: 44.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: third?buttonsColor:borderColor),
-                          ),
-                          child: Center(child: Text('\$ 500')),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
               Padding(
                 padding:  EdgeInsets.symmetric(vertical: 16.0),
@@ -411,6 +374,19 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                           overlayColor: MaterialStatePropertyAll(Colors.white),
                           backgroundColor:MaterialStatePropertyAll(Colors.white), ),
                         onPressed: (){
+                          Stripe.instance.createPaymentMethod( params: PaymentMethodParams.card(
+                              paymentMethodData: PaymentMethodData(
+                                  shippingDetails: ShippingDetails(
+                                     trackingNumber: '',
+                                      name: 'ali',
+                                      address: Address(city: 'alex', country: 'egypte', line1: 'line1', line2: 'line2', postalCode: 'postalCode', state: 'state')
+                                  ),
+                                  mandateData: MandateData(customerAcceptance: MandateDataCustomerAcceptance())
+                              )
+                          )).then((value) {
+                           print(value.paymentMethodType);
+                           Stripe.instance.presentCustomerSheet();
+                          });
                           Navigator.of(context).pop();
                         },
                         child: Text('Cancel',style: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w600),),
@@ -430,7 +406,7 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
                             textStyle:MaterialStatePropertyAll(TextStyle(color: Colors.white)),
                             overlayColor: MaterialStatePropertyAll(Colors.grey),
                             backgroundColor:MaterialStatePropertyAll(Colors.transparent), ),
-                          onPressed: (){},
+                          onPressed: widget.onTap,
                           child: Text('Continue',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),),
                         ),
                       ),

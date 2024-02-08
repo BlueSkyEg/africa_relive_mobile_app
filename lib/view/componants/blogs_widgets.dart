@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../config/themes/colors.dart';
+import '../../models/projects_model.dart';
+import '../screens/blogs_screen/blogs.dart';
 import '../screens/home_screen/home_cubit/home_cubit.dart';
 import '../screens/single_blog_screen/single_blog.dart';
 import 'home_widgets.dart';
@@ -30,36 +32,46 @@ dynamic BlogImagesSlider(context){
     scrollDirection: Axis.horizontal,
   );
 }
-class ProjectsList extends StatelessWidget{
-  const ProjectsList({super.key});
+class ProjectsList extends StatefulWidget{
+  final List<ProjectsData> blogs;
+  ProjectsList({super.key, required this.blogs});
+   @override
+  State<ProjectsList> createState() => _ProjectsListState();
+}
 
+class _ProjectsListState extends State<ProjectsList> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: HomeCubit.get(context).blogs.length,
+      itemCount: blogs.length,
       itemBuilder: (context, index) => GestureDetector(
           onTap: () {
-            getBlogsH1=HomeCubit.get(context).blogs[index].header1.toString();
-            getBlogsH2=HomeCubit.get(context).blogs[index].header2.toString();
-            getBlogsB1=HomeCubit.get(context).blogs[index].body1.toString();
-            getBlogsB2=HomeCubit.get(context).blogs[index].body2.toString();
-            getBlogsType=HomeCubit.get(context).blogs[index].type.toString();
-            getBlogsTitle=HomeCubit.get(context).blogs[index].title.toString();
-            blogsImagesList=HomeCubit.get(context).blogs[index].image2!.toList();
+            getBlogsH1=blogs[index].header1.toString();
+            getBlogsH2=blogs[index].header2.toString();
+            getBlogsB1=blogs[index].body1.toString();
+            getBlogsB2=blogs[index].body2.toString();
+            getBlogsType=blogs[index].type.toString();
+            getBlogsTitle=blogs[index].title.toString();
+            blogsImagesList=blogs[index].image2!.toList();
             Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => SingleBlogScreen(),));
 
 
           },
-          child: UpdatesRow(index: index,num: '1',isAll: true)),
+          child: BlogsRowBuilder(index: index,num: '1',isAll: true,blogs: widget.blogs,)),
       separatorBuilder: (context, index) => SizedBox(height: 16,),
     );
   }
 }
-class HeaderOfSingleBlog extends StatelessWidget{
+class HeaderOfSingleBlog extends StatefulWidget{
    HeaderOfSingleBlog({super.key});
 
+  @override
+  State<HeaderOfSingleBlog> createState() => _HeaderOfSingleBlogState();
+}
+
+class _HeaderOfSingleBlogState extends State<HeaderOfSingleBlog> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -166,9 +178,14 @@ class _ImagesSliderState extends State<ImagesSlider> {
     );
   }
 }
-class BlogParagraph extends StatelessWidget{
+class BlogParagraph extends StatefulWidget{
   BlogParagraph({super.key});
 
+  @override
+  State<BlogParagraph> createState() => _BlogParagraphState();
+}
+
+class _BlogParagraphState extends State<BlogParagraph> {
   @override
   Widget build(BuildContext context) {
     return Column(

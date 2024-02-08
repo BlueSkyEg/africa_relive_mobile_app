@@ -132,7 +132,9 @@ class _FormFieldsState extends State<FormFields> {
 }
 class ButtonLogin extends StatelessWidget{
   final void Function() onTap;
-  const ButtonLogin({super.key, required this.onTap});
+  final Widget textwidget;
+  bool isLogin;
+    ButtonLogin({super.key, required this.onTap,required this.textwidget,this.isLogin=true});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -151,7 +153,7 @@ class ButtonLogin extends StatelessWidget{
             overlayColor: MaterialStatePropertyAll(Colors.grey),
             backgroundColor:MaterialStatePropertyAll(Colors.transparent), ),
           onPressed: onTap,
-          child: Text('Login',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),),
+          child: isLogin?Text('Login',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),):textwidget,
         ),
       ),
     );

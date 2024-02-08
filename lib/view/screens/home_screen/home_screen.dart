@@ -13,8 +13,10 @@ class HomeScreen extends StatelessWidget{
    HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) =>HomeCubit()..projects,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (BuildContext context) =>HomeCubit()..projects,)
+      ],
       child: BlocConsumer<HomeCubit,HomeStates>(
         builder: (context, state) => Scaffold(
           body: Padding(
@@ -48,7 +50,7 @@ class HomeScreen extends StatelessWidget{
                   HeaderAndSeeAllLin(header: 'Latest Updates', textButton: 'See All',isBlogs: true),
                   SizedBox(
                       height: 105,
-                      child: UpdatesList()),
+                      child: BlogsList()),
                   SizedBox(height: 0,)
 
                 ],

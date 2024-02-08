@@ -10,3 +10,9 @@ class GetHomeStateError extends HomeStates{
 class GetHomeStateLoading extends HomeStates{}
 class IsClicked extends HomeStates{}
 class HomeCardState extends HomeStates{}
+class GetLoginStateSuccess extends HomeStates{}
+class GetLoginStateError extends HomeStates{
+  final  error;
+  GetLoginStateError(this.error);
+}
+class GetLoginStateLoading extends HomeStates{}

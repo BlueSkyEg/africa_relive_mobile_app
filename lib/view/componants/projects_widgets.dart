@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../config/themes/colors.dart';
+import '../../models/projects_model.dart';
 import '../screens/home_screen/home_cubit/home_cubit.dart';
 import 'images_url.dart';
 
@@ -21,7 +22,8 @@ class CardOfGridviewOfProjects extends StatelessWidget{
   final String b1;
   final String b2;
   final String b3;
-   CardOfGridviewOfProjects({super.key, required this.image, required this.type, required this.title, required this.h1, required this.h2, required this.h3, required this.b1, required this.b2, required this.b3});
+  final List<int> amounts;
+   CardOfGridviewOfProjects({super.key, required this.image, required this.type, required this.title, required this.h1, required this.h2, required this.h3, required this.b1, required this.b2, required this.b3, required this.amounts});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,9 @@ class CardOfGridviewOfProjects extends StatelessWidget{
         getB1=b1;
         getB2=b2;
         getB3=b3;
+        projectAmountsList=amounts;
+        amount=projectAmountsList.isNotEmpty?projectAmountsList.first:0;
+        print(amounts);
         Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectScreen(),));
         print(getType);
       },
@@ -102,7 +107,8 @@ class CardOfGridviewOfProjects extends StatelessWidget{
 
 }
 class ProjectsGridView extends StatelessWidget{
-  ProjectsGridView({super.key});
+  List<ProjectsData> projects;
+  ProjectsGridView({super.key,required this.projects});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +123,7 @@ class ProjectsGridView extends StatelessWidget{
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
         childAspectRatio: 1.2/1.6,
-        children: HomeCubit.get(context).projects.map((e) => CardOfGridviewOfProjects(
+        children: projects.map((e) => CardOfGridviewOfProjects(
             image: e.image.toString(),
             type: e.type.toString(),
             title: e.title.toString(),
@@ -127,6 +133,7 @@ class ProjectsGridView extends StatelessWidget{
           b1: e.body1.toString(),
           b2: e.body2.toString(),
           b3: e.body3.toString(),
+          amounts: e.amounts!=null?e.amounts!.toList():[],
         )).toList(),
 
       ),
@@ -134,84 +141,164 @@ class ProjectsGridView extends StatelessWidget{
   }
 
 }
-class RowOfProjectsFilter extends StatelessWidget{
+class RowOfProjectsFilter extends StatefulWidget{
   final String imagePath;
   final String lapel;
-  RowOfProjectsFilter({super.key, required this.imagePath, required this.lapel});
+  RowOfProjectsFilter({super.key, required this.imagePath, required this.lapel, });
 
+  @override
+  State<RowOfProjectsFilter> createState() => _RowOfProjectsFilterState();
+}
+
+class _RowOfProjectsFilterState extends State<RowOfProjectsFilter> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding:  EdgeInsets.symmetric(horizontal: 3.0),
       child: Container(
-        height: 32,
+        height: 35,
         padding: EdgeInsetsDirectional.all(8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            border: Border.all(color: borderColor)
+            border: Border.all(color: borderColor),
+          color: filter.contains(widget.lapel)?buttonsColor:null
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 22,
-              width: 22,
+              // height: 22,
+              // width: 22,
               child: CachedNetworkImage(
                 // fit: BoxFit.fill,
-                imageUrl: imagePath,
+                imageUrl: widget.imagePath,
                 placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
             Padding(
               padding:  EdgeInsets.only(left: 8,top: 0.0,right: 8),
-              child: Text(lapel,style: TextStyle(fontSize: 14,),maxLines: 1,),
+              child: Text(widget.lapel,style: TextStyle(color: filter.contains(widget.lapel)?Colors.white:Colors.black),maxLines: 1,overflow: TextOverflow.ellipsis,),
             )
           ],
         ),
       ),
     );
   }
-
 }
-class FilterList extends StatelessWidget{
-  FilterList({super.key});
+class FilterList extends StatefulWidget{
+  final void Function()? onAllTap;
+  final  Function(String) onfoodTap;
+  final String food;
+  final String water;
+  final String education;
+  final String medical;
+  final String orphan;
+  final String zakat;
+  final String ramadan;
+  final ScrollController filterController;
+  FilterList({super.key, this.onAllTap, required this.onfoodTap, required this.food, required this.water, required this.education, required this.medical, required this.orphan, required this.zakat, required this.ramadan, required this.filterController,});
+  @override
+  State<FilterList> createState() => _FilterListState();
+}
 
+class _FilterListState extends State<FilterList> {
+  @override
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Padding(
       padding:  EdgeInsets.only(top: 16.0,bottom: 16,left: 0),
       child: Container(
-        height: 36,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
+        height: 44,
+        child: PageView(
+          controller: PageController(initialPage: s),
           children: [
-            Container(
-              height: 32,
-              padding: EdgeInsetsDirectional.only(top: 5,bottom: 5,start: 14,end: 14),
-              decoration: BoxDecoration(
-                  color: buttonsColor,
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: borderColor)
+            Row(
+            children: [
+              GestureDetector(
+                onTap: widget.onAllTap,
+                child: Container(
+                  height: 32,
+                  padding: EdgeInsetsDirectional.only(top: 5,bottom: 5,start: 14,end: 14),
+                  decoration: BoxDecoration(
+                      color: filter==''?buttonsColor:Colors.white,
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(color: borderColor)
+                  ),
+                  child: Center(child: Text('All',style: TextStyle(color: filter==''?Colors.white:Colors.black,fontSize: 14),)),
+                ),
               ),
-              child: Center(child: Text('All',style: TextStyle(color: Colors.white,fontSize: 14),)),
-            ),
-            RowOfProjectsFilter(lapel: 'Food',imagePath: food,),
-            RowOfProjectsFilter(imagePath: education,lapel: 'Education',),
-            RowOfProjectsFilter(imagePath: medical,lapel:'Medical' ,),
-            RowOfProjectsFilter(imagePath: water,lapel: 'Water',),
-            RowOfProjectsFilter(imagePath: orphans,lapel: 'Orphans',),
-            RowOfProjectsFilter(imagePath: zakat,lapel: 'Zakat',),
-            RowOfProjectsFilter(imagePath: ramadan,lapel: 'Ramadan',),
-          ],
+              Expanded(
+                child: GestureDetector(
+                    onTap:(){
+                      filter=widget.food;
+                      widget.onfoodTap(widget.food);
+                    } ,
+                    child: RowOfProjectsFilter(lapel:'Food Aid',imagePath: food)),
+              ),
+              Expanded(
+                child: GestureDetector(
+                    onTap:(){
+                      filter=widget.education;
+                      widget.onfoodTap(widget.education);
+                    } ,
+                    child: RowOfProjectsFilter(imagePath: education,lapel: 'Education',)),
+              ),
+            ],
+          ),
+            Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                    onTap:(){
+                      filter=widget.medical;
+                      widget.onfoodTap(widget.medical);
+                    } ,
+                    child: RowOfProjectsFilter(imagePath: medical,lapel:'Medical' ,)),
+              ),
+              Expanded(
+                child: GestureDetector(
+                    onTap:(){
+                      filter=widget.water;
+                      widget.onfoodTap(widget.water);
+                    } ,
+                    child: RowOfProjectsFilter(imagePath: water,lapel: 'Water',)),
+              ),
+              Expanded(
+                child: GestureDetector(
+                    onTap:(){
+                      filter=widget.zakat;
+                      widget.onfoodTap(widget.zakat);
+                    } ,
+                    child: RowOfProjectsFilter(imagePath: zakat,lapel: 'Zakat',)),
+              ),
+
+            ],
+          ),
+            Row(
+            children: [
+              GestureDetector(
+                  onTap:(){
+                    filter=widget.orphan;
+                    widget.onfoodTap(widget.orphan);
+                  } ,
+                  child: RowOfProjectsFilter(imagePath: orphans,lapel: 'Orphan Support',)),
+              GestureDetector(
+                  onTap:(){
+                    filter=widget.ramadan;
+                    widget.onfoodTap(widget.ramadan);
+                  } ,
+                  child: RowOfProjectsFilter(imagePath: ramadan,lapel: 'Ramadan',)),
+            ],
+          ),
+          ]
         ),
       ),
     );
   }
-
 }
+String filter='';
+int s=0;

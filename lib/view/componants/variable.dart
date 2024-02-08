@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 String getType='';
 String getImage='';
 String getTitle='';
@@ -14,3 +16,5 @@ String getBlogsH2='';
 String getBlogsB1='';
 String getBlogsB2='';
 List<String> blogsImagesList=[];
+List<int> projectAmountsList=[];
+int amount=0;

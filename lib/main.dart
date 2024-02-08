@@ -1,8 +1,10 @@
 
+import 'package:africa_relief/core/stripe_payment/stripe_keys.dart';
 import 'package:africa_relief/view/screens/login_screen/login.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stripe_sdk/stripe_sdk.dart';
 import 'config/themes/theme.dart';
 import 'core/apis/dio.dart';
 import 'core/helper/blocobserver/bloc_obsorver.dart';
@@ -11,6 +13,7 @@ import 'core/helper/blocobserver/bloc_obsorver.dart';
 
 
 void main() async{
+  Stripe.init(ApiKeys.publishableKey);
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
   Bloc.observer = SimpleBlocObserver();

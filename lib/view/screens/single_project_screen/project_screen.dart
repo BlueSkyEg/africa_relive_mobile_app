@@ -6,7 +6,10 @@ import 'package:africa_relief/view/screens/home_screen/home_cubit/home_states.da
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hexcolor/hexcolor.dart';
+import '../../componants/payments_widgets.dart';
 import '../../componants/singel_project_widgets.dart';
 
 class ProjectScreen extends StatefulWidget{
@@ -15,6 +18,10 @@ class ProjectScreen extends StatefulWidget{
   State<ProjectScreen> createState() => _ProjectScreenState();
 }
 class _ProjectScreenState extends State<ProjectScreen> {
+  TextEditingController _controller=TextEditingController();
+  TextEditingController _controllerccv=TextEditingController();
+  TextEditingController _controllerexmonth=TextEditingController();
+  TextEditingController _controllerexyear=TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -76,7 +83,20 @@ class _ProjectScreenState extends State<ProjectScreen> {
                         isScrollControlled: true,
                         context: context,
                         builder: (context) =>
-                            DonationBottomSheet(),
+                            DonationBottomSheet(onTap: (){
+                              setState(() {
+                                showModalBottomSheet(context: context, builder:(context) => Container(
+                                  color: HexColor('F7F9FA'),
+                                  height: 370.h,
+                                  child: SingleChildScrollView(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: CardForm(controller: _controller, controllerccv: _controllerccv, controllerexmonth: _controllerexmonth, controllerexyear: _controllerexyear,),
+                                    ),
+                                  ),
+                                ),);
+                              });
+                            }),
                         shape: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(25)),

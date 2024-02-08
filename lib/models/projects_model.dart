@@ -33,6 +33,7 @@ class ProjectsData {
   String? type;
   String? image;
   List <String>? image2;
+  List <int>? amounts;
   String? header1;
   String? body1;
   String? header2;
@@ -40,17 +41,16 @@ class ProjectsData {
   String? header3;
   String? body3;
   String? title;
-
   ProjectsData(
       {this.id,
         this.description,
         this.type,
       this.header1,this.header2,this.header3,
       this.body1,this.body2,this.body3,
-      this.image,this.title,this.image2
+      this.image,this.title,this.image2,this.amounts,
       });
 
-  ProjectsData.fromJson(Map<String, dynamic> json) {
+   ProjectsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     description = json['description'];
     header1 = json['header1'];
@@ -61,6 +61,7 @@ class ProjectsData {
     body3 = json['body3'];
     image=json['image'];
     image2=List<String>.from(json["image2"].map((x) => x));
+    amounts=List<int>.from(json["amnounts"].map((x) => x));
     type=json['type'];
 
   }
@@ -78,6 +79,7 @@ class ProjectsData {
     data['body3'] = this.body3;
     data['image'] = this.image;
     data['image2'] = List<dynamic>.from(image2!.map((x) => x));
+    data['amounts'] = List<dynamic>.from(amounts!.map((x) => x));
     return data;
   }
 }

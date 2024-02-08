@@ -53,7 +53,7 @@ class CategoriesScreen extends StatelessWidget{
                       ProjectsCategories(imagePath: medical,lapel:'Medical' ,),
                       Padding(
                         padding:  EdgeInsets.symmetric(vertical: 16.0),
-                        child: ProjectsCategories(imagePath: orphans,lapel:'Orphans' ,),
+                        child: ProjectsCategories(imagePath: orphans,lapel:'Orphan Support' ,),
                       ),
 
                     ],

@@ -1,5 +1,7 @@
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 
 
 class DioHelper {
@@ -7,17 +9,17 @@ class DioHelper {
   static init (){
     dio = Dio(
         BaseOptions(
-          baseUrl: 'https://api.stripe.com/',
+          baseUrl: 'http://192.168.0.61:8000/api',
           receiveDataWhenStatusError: true,
         )
     );
   }
-  static Future<Response> getData({required String? url , Map<String,dynamic>? query , String? lang=' en ',String? token,String? content})
+  static Future<Response> getData({required String? url , Map<String,dynamic>? query , String? lang=' en ',String? token})
   async{
     dio!.options.headers={
       'lang':lang,
       'Authorization':token??'',
-      'content-type':content??'application/json'
+      'content-type':'application/json'
     };
     return await dio!.get
       (
@@ -25,12 +27,12 @@ class DioHelper {
         queryParameters: query
     );
   }
-  static Future<Response> postData({required String? url, Map<String,dynamic>? query,required Map<String,dynamic> data,String? lang= 'en',String? token ,String? content})
+  static Future<Response> postData({required String? url, Map<String,dynamic>? query,required Map<String,dynamic> data,String? lang= 'en',String? token })
   async{
     dio!.options.headers={
       'lang':lang,
       'Authorization':token??'',
-      'content-type':content??'application/json'
+      'content-type':'application/json'
     };
     return await dio!.post(
         url!,
@@ -52,55 +54,4 @@ class DioHelper {
         data: data
     );
   }
-  // static Future<Response> download({required String? name,required String? url, Map<String,dynamic>? query,  Map<String,dynamic>? data , String? lang = 'en',String? token })
-  // async{
-  //   dio!.options.headers={
-  //     'lang':lang,
-  //     'Authorization':token??'',
-  //     'content-type':'application/json'
-  //   };
-  //   // if(Platform.isIOS) {
-  //   //   Directory directory = (await getApplicationDocumentsDirectory());
-  //   //   String newPath = "";
-  //   //   print(directory);
-  //   //   List<String> paths = directory.path.split("/");
-  //   //   // for (int x = 1; x < paths.length; x++) {
-  //   //   //   String folder = paths[x];
-  //   //   //   if (folder != "Android") {
-  //   //   //     newPath += "/" + folder;
-  //   //   //   } else {
-  //   //   //     break;
-  //   //   //   }
-  //   //   // }
-  //   //   newPath = newPath + "/Download";
-  //   //   directory = Directory(newPath);
-  //   //   // openfile = directory.path.toString();
-  //   //   print(directory);
-  //   //   print(name);
-  //   //   print(name);
-  //   //   return await dio!
-  //   //       .download(url.toString(), '${directory.path}/${name.toString()}');
-  //   // }
-  //   // else{
-  //   //   Directory directory = (await getDownloadsDirectory())!;
-  //   //   String newPath = "";
-  //   //   print(directory);
-  //   //   List<String> paths = directory.path.split("/");
-  //   //   for (int x = 1; x < paths.length; x++) {
-  //   //     String folder = paths[x];
-  //   //     if (folder != "Android") {
-  //   //       newPath += "/" + folder;
-  //   //     } else {
-  //   //       break;
-  //   //     }
-  //   //   }
-  //     newPath = newPath + "/Download";
-  //     directory = Directory(newPath);
-  //     openfile = directory.path.toString();
-  //     print(directory);
-  //     print(name);
-  //     print(name);
-  //     return await dio!.download(url.toString(), '${directory.path}/${name.toString()}');
-  //   }
-  // }
 }

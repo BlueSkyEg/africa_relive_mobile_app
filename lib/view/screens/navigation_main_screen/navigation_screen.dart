@@ -2,6 +2,7 @@
 
 import 'package:africa_relief/config/themes/colors.dart';
 import 'package:africa_relief/config/themes/icons.dart';
+import 'package:africa_relief/view/componants/projects_widgets.dart';
 import 'package:africa_relief/view/screens/blogs_screen/blogs.dart';
 import 'package:africa_relief/view/screens/home_screen/home_screen.dart';
 import 'package:africa_relief/view/screens/profile_screen/profile.dart';
@@ -13,6 +14,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hidable/hidable.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
+import '../home_screen/home_cubit/home_cubit.dart';
 import 'app_cubit/app_cubit.dart';
 import 'app_cubit/app_states.dart';
 
@@ -55,6 +57,8 @@ class _HomeState extends State<Home> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => AppCubit()),
+        BlocProvider(create: (BuildContext context) =>HomeCubit()..projects,)
+
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         builder: (BuildContext context, state) {
@@ -73,6 +77,7 @@ class _HomeState extends State<Home> {
                     elevation: 0,
                     onTap: (value) {
                       setState(() {
+                        filter='';
                         AppCubit.get(context).changeBottomNave(value,context);
                       });
                       // void showTutorial() {
