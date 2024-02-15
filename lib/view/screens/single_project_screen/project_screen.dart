@@ -3,14 +3,22 @@
 import 'package:africa_relief/view/componants/variable.dart';
 import 'package:africa_relief/view/screens/home_screen/home_cubit/home_cubit.dart';
 import 'package:africa_relief/view/screens/home_screen/home_cubit/home_states.dart';
+import 'package:africa_relief/view/screens/navigation_main_screen/navigation_screen.dart';
+import 'package:africa_relief/view/screens/payment_screen/payment_screen.dart';
+import 'package:africa_relief/view/screens/payment_screen/user_cards_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../../config/themes/colors.dart';
+import '../../componants/loginWidgets.dart';
 import '../../componants/payments_widgets.dart';
 import '../../componants/singel_project_widgets.dart';
+import 'package:stripe_sdk/stripe_sdk.dart' as Stripea;
+
 
 class ProjectScreen extends StatefulWidget{
    ProjectScreen({super.key});
@@ -18,12 +26,10 @@ class ProjectScreen extends StatefulWidget{
   State<ProjectScreen> createState() => _ProjectScreenState();
 }
 class _ProjectScreenState extends State<ProjectScreen> {
-  TextEditingController _controller=TextEditingController();
-  TextEditingController _controllerccv=TextEditingController();
-  TextEditingController _controllerexmonth=TextEditingController();
-  TextEditingController _controllerexyear=TextEditingController();
   @override
   void initState() {
+    selectedItem='once';
+    print(selectedItem);
     super.initState();
   }
   @override
@@ -57,7 +63,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: () => Navigator.pop(context),
+                              onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),)),
                               child: Icon(Icons.arrow_back_ios,size: 25,color: Colors.white,),),
                             Spacer(),
                             Padding(
@@ -82,19 +88,65 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       showModalBottomSheet(
                         isScrollControlled: true,
                         context: context,
-                        builder: (context) =>
-                            DonationBottomSheet(onTap: (){
+                        builder: (context) => DonationBottomSheet(onTap: (){
                               setState(() {
-                                showModalBottomSheet(context: context, builder:(context) => Container(
-                                  color: HexColor('F7F9FA'),
-                                  height: 370.h,
-                                  child: SingleChildScrollView(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: CardForm(controller: _controller, controllerccv: _controllerccv, controllerexmonth: _controllerexmonth, controllerexyear: _controllerexyear,),
-                                    ),
-                                  ),
-                                ),);
+                                if(userCardList.isEmpty) {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen(),));
+                                }
+                                if(userCardList.isNotEmpty){
+                                  showDialog(
+                                    context: context,
+                                      builder: (context) => Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                          child: Container(
+                                            height: 280,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(8.0),
+                                            ),
+                                            padding: EdgeInsets.all(16.0),
+                                            child: Column(
+                                              children: [
+                                                Icon(Icons.add_card,size: 100,),
+                                                Padding(
+                                                  padding:  EdgeInsets.only(top: 12.0,bottom: 12),
+                                                  child: Text(
+                                                    'Do you want to choose from your saves cards?',
+                                                    style: TextStyle(fontSize: 18.0,color: buttonsColor,decorationColor: Colors.white,decorationThickness: 0),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: ButtonLogin(
+                                                        color: Colors.white,
+                                                          isLogin: false,
+                                                          onTap: ()async{
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen(),));
+                                                          },
+                                                          textwidget: Text('No Thanks',style: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w600))),
+                                                    ),
+                                                    SizedBox(width: 10,),
+                                                    Expanded(
+                                                      child: ButtonLogin(
+                                                          isLogin: false,
+                                                          onTap: ()async{
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context) => SavesCards(),));
+                                                          },
+                                                          textwidget: Text('Ok',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600))),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  );
+                                }
                               });
                             }),
                         shape: OutlineInputBorder(

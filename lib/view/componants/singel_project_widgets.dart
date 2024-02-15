@@ -1,13 +1,17 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:africa_relief/view/componants/variable.dart';
+import 'package:africa_relief/view/screens/home_screen/home_cubit/home_cubit.dart';
+import 'package:africa_relief/view/screens/home_screen/home_cubit/home_states.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:stripe_sdk/stripe_sdk.dart' as Stripea;
 
 import '../../config/themes/colors.dart';
 import '../../core/apis/dio.dart';
@@ -49,7 +53,7 @@ class SubscribersRow extends StatelessWidget{
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                     child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/f351/310a/a237f2216042fe012abbb1d0abfc88f9?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EauKcgu~aO3D-46gn-wZY1YiDIo6XPiVS3Ww3m9j-x6cLo8IFfvi9tHxls7Xiccl6PX5pM6k2PI43awfwq66llh97mvsmpqPTgRtJKF11vzmNBYog35QQz38AcZOFYqx16MCGGUuWrRvr7SO3s1ODmAdWJ2ED0PEQCVzwemh8YbyqZb-p53crBA7DgDxzKRn~4tG20TMk0S55ebGZZ5SEBbAg-91cP9eLELZYfOXXinsoxeJZAPcfd1e20o~EtaPwTeEC9do5wmOT5rOKCpsoxrYMm6qnpEfdyJ2avEfssndtN0o9MTFskg2VgBsYZ~XFvRrk0H3KO-4XdKkAEQqDg__'),fit: BoxFit.cover),
+                     child: Image(image: NetworkImage('https://cdn.vectorstock.com/i/1000x1000/17/61/male-avatar-profile-picture-vector-10211761.webp'),fit: BoxFit.cover),
                   ),
                   Stack(
                     children: [
@@ -70,7 +74,7 @@ class SubscribersRow extends StatelessWidget{
                               ),
                             ],
                           ),
-                           child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/f351/310a/a237f2216042fe012abbb1d0abfc88f9?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EauKcgu~aO3D-46gn-wZY1YiDIo6XPiVS3Ww3m9j-x6cLo8IFfvi9tHxls7Xiccl6PX5pM6k2PI43awfwq66llh97mvsmpqPTgRtJKF11vzmNBYog35QQz38AcZOFYqx16MCGGUuWrRvr7SO3s1ODmAdWJ2ED0PEQCVzwemh8YbyqZb-p53crBA7DgDxzKRn~4tG20TMk0S55ebGZZ5SEBbAg-91cP9eLELZYfOXXinsoxeJZAPcfd1e20o~EtaPwTeEC9do5wmOT5rOKCpsoxrYMm6qnpEfdyJ2avEfssndtN0o9MTFskg2VgBsYZ~XFvRrk0H3KO-4XdKkAEQqDg__'),fit: BoxFit.cover),
+                           child: Image(image: NetworkImage('https://cdn.vectorstock.com/i/1000x1000/17/61/male-avatar-profile-picture-vector-10211761.webp'),fit: BoxFit.cover),
                         ),
                       ),
                       Stack(
@@ -92,7 +96,7 @@ class SubscribersRow extends StatelessWidget{
                                   ),
                                 ],
                               ),
-                               child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/f351/310a/a237f2216042fe012abbb1d0abfc88f9?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EauKcgu~aO3D-46gn-wZY1YiDIo6XPiVS3Ww3m9j-x6cLo8IFfvi9tHxls7Xiccl6PX5pM6k2PI43awfwq66llh97mvsmpqPTgRtJKF11vzmNBYog35QQz38AcZOFYqx16MCGGUuWrRvr7SO3s1ODmAdWJ2ED0PEQCVzwemh8YbyqZb-p53crBA7DgDxzKRn~4tG20TMk0S55ebGZZ5SEBbAg-91cP9eLELZYfOXXinsoxeJZAPcfd1e20o~EtaPwTeEC9do5wmOT5rOKCpsoxrYMm6qnpEfdyJ2avEfssndtN0o9MTFskg2VgBsYZ~XFvRrk0H3KO-4XdKkAEQqDg__'),fit: BoxFit.cover),
+                               child: Image(image: NetworkImage('https://cdn.vectorstock.com/i/1000x1000/17/61/male-avatar-profile-picture-vector-10211761.webp'),fit: BoxFit.cover),
                             ),
                           ),
                           Padding(
@@ -112,7 +116,7 @@ class SubscribersRow extends StatelessWidget{
                                   ),
                                 ],
                               ),
-                               child: Image(image: NetworkImage('https://s3-alpha-sig.figma.com/img/f351/310a/a237f2216042fe012abbb1d0abfc88f9?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EauKcgu~aO3D-46gn-wZY1YiDIo6XPiVS3Ww3m9j-x6cLo8IFfvi9tHxls7Xiccl6PX5pM6k2PI43awfwq66llh97mvsmpqPTgRtJKF11vzmNBYog35QQz38AcZOFYqx16MCGGUuWrRvr7SO3s1ODmAdWJ2ED0PEQCVzwemh8YbyqZb-p53crBA7DgDxzKRn~4tG20TMk0S55ebGZZ5SEBbAg-91cP9eLELZYfOXXinsoxeJZAPcfd1e20o~EtaPwTeEC9do5wmOT5rOKCpsoxrYMm6qnpEfdyJ2avEfssndtN0o9MTFskg2VgBsYZ~XFvRrk0H3KO-4XdKkAEQqDg__'),fit: BoxFit.cover),
+                               child: Image(image: NetworkImage('https://cdn.vectorstock.com/i/1000x1000/17/61/male-avatar-profile-picture-vector-10211761.webp'),fit: BoxFit.cover),
                             ),
                           ),
                         ],
@@ -199,224 +203,222 @@ class _DonationBottomSheetState extends State<DonationBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: HexColor('F7F9FA'),
-      height: 320.h,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding:  EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Center(
-                child: Container(
-                  height: 7,
-                  width: MediaQuery.of(context).size.width / 5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.circular(25),
-                      color: HexColor('D9DAE1')),
-                ),
-              ),
-              Padding(
-                padding:  EdgeInsets.symmetric(vertical: 16.0),
-                child: Container(
-                  height: 44.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: borderColor),
-                  ),
-                  child: Center(child: Text('\$ Custom Amount')),
-                ),
-              ),
-              Container(
-                height: 44.h,
-                width: double.infinity,
-                child: ListView.builder(
-                  padding: EdgeInsets.all(0),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) =>  Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 5.0),
-                    child: GestureDetector (
-                      onTap: (){
-                        setState(() {
-                          amount=projectAmountsList[index];
-                          third=false;
-                        });
-                      },
-                      child: Container(
-                        height: 44.h,
-                        width: 105,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: amount==projectAmountsList[index]?buttonsColor:borderColor),
-                        ),
-                        child: Center(child: Text('\$ ${projectAmountsList[index]}')),
-                      ),
+    return BlocProvider(
+      create: (context) =>HomeCubit(),
+      child: BlocConsumer<HomeCubit,HomeStates>(
+        builder:(context, state) =>  Container(
+          color: HexColor('F7F9FA'),
+          height: 320.h,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding:  EdgeInsets.all(12.0),
+              child: Column(
+                children: [
+                  Center(
+                    child: Container(
+                      height: 7,
+                      width: MediaQuery.of(context).size.width / 5,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadiusDirectional.circular(25),
+                          color: HexColor('D9DAE1')),
                     ),
                   ),
-                  itemCount: projectAmountsList.length,
-
-                ),
-              ),
-              Padding(
-                padding:  EdgeInsets.symmetric(vertical: 16.0),
-                child: Container(
-                  height: 44.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: borderColor),
-                    color: HexColor('E4E3E9')
+                  Padding(
+                    padding:  EdgeInsets.symmetric(vertical: 16.0),
+                    child: Container(
+                      height: 44.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: borderColor),
+                      ),
+                      child: Center(child: Text('\$ Custom Amount')),
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Checkbox(value: isChecked, onChanged: (value) {
-                        setState(() {
-                          isChecked = !isChecked;
-                        });
-                      },),
-                      Text('Make this donation every'),
-                      Spacer(),
-                      Padding(
-                        padding:  EdgeInsets.only(right: 8.0),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2<String>(
-                            style: TextStyle(
-                               fontSize: 14,color: Colors.black),
-                            isExpanded: true,
-                            hint:  Text(
-                              'Monthly',
-                              style: TextStyle(
-                                    fontSize: 14,color: Colors.black),
-                              overflow: TextOverflow.ellipsis,
-
+                  Container(
+                    height: 44.h,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) =>  Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 5.0),
+                        child: GestureDetector (
+                          onTap: (){
+                            setState(() {
+                              amount=projectAmountsList[index];
+                              third=false;
+                            });
+                          },
+                          child: Container(
+                            height: 44.h,
+                            width: 105,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(color: amount==projectAmountsList[index]?buttonsColor:borderColor),
                             ),
-                            isDense: true,
-                            items:[
-                              DropdownMenuItem(value: 'monthly',child: Text('monthly'),),
-                              DropdownMenuItem(value: 'yealry',child: Text('yearly'),),
-                              DropdownMenuItem(value: 'once',child: Text('once'),),
-                            ],
-                            value: selectedItem,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedItem = value.toString();
-                              });
-                            },
-                            buttonStyleData: ButtonStyleData(
-                              // height: 35,
-                              width: 110,
-                              padding:  EdgeInsets.only(left: 10, right: 14),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: HexColor('E4E3E9')
-                                ),
-                                  color: HexColor('E4E3E9')
-                              ),
-                              elevation: 0,
-                            ),
-                            iconStyleData:  IconStyleData(
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                              ),
-                              iconSize: 24,
-                              iconEnabledColor:  Colors.blueGrey,
-                              iconDisabledColor: Colors.grey,
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                              elevation: 1,
-                              maxHeight: 130,
-                              padding: EdgeInsetsDirectional.all(10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.black26,
-                                ),
-                              ),
-                              // offset: const Offset(0, -2),
-                              isOverButton: false,
-                              scrollbarTheme: ScrollbarThemeData(
-                                radius: const Radius.circular(40),
-                                thickness: MaterialStateProperty.all(6),
-                                thumbVisibility: MaterialStateProperty.all(true),
-                              ),
-                              // useSafeArea: true
-                            ),
-                            menuItemStyleData: const MenuItemStyleData(
-                                padding:
-                                EdgeInsetsDirectional.only(start: 0, end: 0),
-                                height: 35
-                            ),
+                            child: Center(child: Text('\$ ${projectAmountsList[index]}')),
                           ),
                         ),
                       ),
-                    ],
+                      itemCount: projectAmountsList.length,
+
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Container(
-                      height: 52,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                  Padding(
+                    padding:  EdgeInsets.symmetric(vertical: 16.0),
+                    child: Container(
+                      height: 44.h,
+                      width: double.infinity,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(color: borderColor),
-                          color: Colors.white
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: borderColor),
+                        color: HexColor('E4E3E9')
                       ),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          textStyle:MaterialStatePropertyAll(TextStyle(color: Colors.white)),
-                          overlayColor: MaterialStatePropertyAll(Colors.white),
-                          backgroundColor:MaterialStatePropertyAll(Colors.white), ),
-                        onPressed: (){
-                          Stripe.instance.createPaymentMethod( params: PaymentMethodParams.card(
-                              paymentMethodData: PaymentMethodData(
-                                  shippingDetails: ShippingDetails(
-                                     trackingNumber: '',
-                                      name: 'ali',
-                                      address: Address(city: 'alex', country: 'egypte', line1: 'line1', line2: 'line2', postalCode: 'postalCode', state: 'state')
+                      child: Row(
+                        children: [
+                          Checkbox(value: isChecked, onChanged: (value) {
+                            setState(() {
+                              isChecked = !isChecked;
+                            });
+                          },),
+                          Text('Make this donation every'),
+                          Spacer(),
+                          Padding(
+                            padding:  EdgeInsets.only(right: 8.0),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton2<String>(
+                                style: TextStyle(
+                                   fontSize: 14,color: Colors.black),
+                                isExpanded: true,
+                                hint:  Text(
+                                  'once',
+                                  style: TextStyle(
+                                        fontSize: 14,color: Colors.black),
+                                  overflow: TextOverflow.ellipsis,
+
+                                ),
+                                isDense: true,
+                                items:[
+                                  DropdownMenuItem(value: 'year',child: Text('year'),),
+                                  // DropdownMenuItem(value: 'quarter',child: Text('quarter'),),
+                                  DropdownMenuItem(value: 'month',child: Text('month'),),
+                                  DropdownMenuItem(value: 'week',child: Text('week'),),
+                                  DropdownMenuItem(value: 'day',child: Text('day'),),
+                                  DropdownMenuItem(value: 'once',child: Text('once'),),
+                                ],
+                                value: selectedItem,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedItem = value.toString();
+                                  });
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  // height: 35,
+                                  width: 110,
+                                  padding:  EdgeInsets.only(left: 10, right: 14),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: HexColor('E4E3E9')
+                                    ),
+                                      color: HexColor('E4E3E9')
                                   ),
-                                  mandateData: MandateData(customerAcceptance: MandateDataCustomerAcceptance())
-                              )
-                          )).then((value) {
-                           print(value.paymentMethodType);
-                           Stripe.instance.presentCustomerSheet();
-                          });
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Cancel',style: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w600),),
+                                  elevation: 0,
+                                ),
+                                iconStyleData:  IconStyleData(
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down,
+                                  ),
+                                  iconSize: 24,
+                                  iconEnabledColor:  Colors.blueGrey,
+                                  iconDisabledColor: Colors.grey,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  elevation: 1,
+                                  // maxHeight: 20,
+                                  padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                    ),
+                                  ),
+                                  // offset: const Offset(0, -2),
+                                  isOverButton: false,
+                                  scrollbarTheme: ScrollbarThemeData(
+                                    radius:  Radius.circular(40),
+                                    thickness: MaterialStateProperty.all(6),
+                                    thumbVisibility: MaterialStateProperty.all(true),
+                                  ),
+                                  useSafeArea: true
+                                ),
+                                menuItemStyleData:  MenuItemStyleData(
+                                    padding:
+                                    EdgeInsetsDirectional.only(start: 0, end: 0),
+                                    height: 35
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(width: 12,),
-                    Expanded(
-                      child: Container(
-                        height: 52,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: buttonsColor
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 52,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(color: borderColor),
+                              color: Colors.white
+                          ),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              textStyle:MaterialStatePropertyAll(TextStyle(color: Colors.white)),
+                              overlayColor: MaterialStatePropertyAll(Colors.white),
+                              backgroundColor:MaterialStatePropertyAll(Colors.white), ),
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Cancel',style: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w600),),
+                          ),
                         ),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            textStyle:MaterialStatePropertyAll(TextStyle(color: Colors.white)),
-                            overlayColor: MaterialStatePropertyAll(Colors.grey),
-                            backgroundColor:MaterialStatePropertyAll(Colors.transparent), ),
-                          onPressed: widget.onTap,
-                          child: Text('Continue',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),),
+                        SizedBox(width: 12,),
+                        Expanded(
+                          child: Container(
+                            height: 52,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: buttonsColor
+                            ),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                textStyle:MaterialStatePropertyAll(TextStyle(color: Colors.white)),
+                                overlayColor: MaterialStatePropertyAll(Colors.grey),
+                                backgroundColor:MaterialStatePropertyAll(Colors.transparent), ),
+                              onPressed: widget.onTap,
+                              child: Text('Continue',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           ),
         ),
+        listener: (context, state) {
+
+        },
       ),
     );
   }
@@ -488,4 +490,4 @@ class ProjectParagraph extends StatelessWidget{
 }
 
 String? selectedValue;
-String selectedItem='monthly';
+String selectedItem='once';

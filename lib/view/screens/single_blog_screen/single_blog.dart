@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:africa_relief/view/screens/navigation_main_screen/navigation_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _SingleBlogScreenState extends State<SingleBlogScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),)),
                       child: Icon(Icons.arrow_back_ios,size: 20,color: Colors.black,),),
                     Spacer(),
                     Padding(

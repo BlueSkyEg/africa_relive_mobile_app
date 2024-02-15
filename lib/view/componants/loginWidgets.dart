@@ -133,25 +133,28 @@ class _FormFieldsState extends State<FormFields> {
 class ButtonLogin extends StatelessWidget{
   final void Function() onTap;
   final Widget textwidget;
+  Color? color;
+  double? height;
+  double? radius;
   bool isLogin;
-    ButtonLogin({super.key, required this.onTap,required this.textwidget,this.isLogin=true});
+    ButtonLogin({super.key, required this.onTap,required this.textwidget,this.isLogin=true,this.color,this.height,this.radius});
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(right: 0,left: 0,top: 12,bottom: 12),
       child: Container(
-        height: 52,
+        height: height??52,
         width: double.infinity,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: buttonsColor
+            borderRadius: BorderRadius.circular(radius??50),
+            color: color??buttonsColor
         ),
         child: ElevatedButton(
           style: ButtonStyle(
             textStyle:MaterialStatePropertyAll(TextStyle(color: Colors.white)),
             overlayColor: MaterialStatePropertyAll(Colors.grey),
-            backgroundColor:MaterialStatePropertyAll(Colors.transparent), ),
+            backgroundColor:MaterialStatePropertyAll(color??Colors.transparent), ),
           onPressed: onTap,
           child: isLogin?Text('Login',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),):textwidget,
         ),

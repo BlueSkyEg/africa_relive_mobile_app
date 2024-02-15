@@ -16,7 +16,11 @@ class CashHelper{
   static getData({required String key}){
     return sharedPreferences!.get(key);
   }
+  static getListData({required String key}){
+    return sharedPreferences!.getStringList(key);
+  }
   static cleanData({required String key})async{
     return await sharedPreferences!.remove(key);
   }
+
 }

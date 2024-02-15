@@ -1,5 +1,11 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls, avoid_print
+import 'dart:async';
 import 'dart:convert';
+import 'package:africa_relief/models/retrieve_all_payment_model.dart';
+import 'package:africa_relief/view/componants/singel_project_widgets.dart';
+import 'package:africa_relief/view/screens/single_project_screen/project_screen.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:stripe_sdk/stripe_sdk.dart' as Stripea;
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -9,7 +15,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../core/apis/dio.dart';
+import '../../../../core/helper/Cashhelper/cash_helper.dart';
 import '../../../../models/projects_model.dart';
+import '../../../../models/single_payment_model.dart';
+import '../../../../models/subscription_model.dart';
 import '../../../componants/payments_widgets.dart';
 import '../../../componants/variable.dart';
 import 'home_states.dart';
@@ -17,6 +26,11 @@ import 'home_states.dart';
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit() : super(HomeInitialState());
   static HomeCubit get(context) => BlocProvider.of(context);
+  SinglePayment? singlePayment;
+  SubscriptionModel? subscriptionPayment;
+  SinglePayment? singlePaymentOTP;
+  var s;
+  RetrieveAllPaymentModel? retrieve;
   List<ProjectsData> projects = [
     ProjectsData(
       id: 1,
@@ -231,20 +245,142 @@ class HomeCubit extends Cubit<HomeStates> {
       header2: 'Beneficiaries:',
     ),
   ];
-  void UserLogin(){
-    emit(GetLoginStateLoading());
-    DioHelper.postData(url:'/create-single-charge',data: {
+  void GetRetrieveAllPayments(){
+    emit(GetRetrieveLoading());
+    DioHelper.getData(url: '/payment-method/retrieve/all').then((value) {
+      retrieve=RetrieveAllPaymentModel.fromJson(value.data);
+      emit(GetRetrieveSuccess(retrieve:retrieve!));
+    }).catchError((error){
+      print(error);
+      emit(GetRetrieveError(error));
+    });
+  }
+  void SingleDonation(){
+    emit(GetSingleDonationStateLoading());
+    DioHelper.postData(url:'/single-charge/create',data: {
       'paymentMethodId':pay,
       'amount':amount,
       'paymentDescription':getTitle
     }).then((value) {
-      emit(GetLoginStateSuccess());
+      singlePayment=SinglePayment.fromJson(value.data);
+      if(singlePayment!.data!=null) {
+        print(singlePayment!.data!.clientSecret);
+        Stripe.instance.handleNextAction(singlePayment!.data!.clientSecret.toString()).then((value) {
+          otp=value.id;
+          s=value;
+          // HomeCubit();
+          emit(ShowOTPSuccess());
+        }).catchError((error){
+          print(error.toString());
+          emit(ShowOTPError(error));
+        });
+
+      }
+      else{
+        emit(GetSingleDonationStateSuccess(singlePay:singlePayment!));
+      }
     }).catchError((error){
       print(error.toString());
-      emit(GetLoginStateError(error));
+      emit(GetSingleDonationStateError(error));
     });
   }
+  void SubscriptionDonation(){
+    emit(GetSubscriptionStateLoading());
+    DioHelper.postData(url:'/subscription/create',data: {
+      'paymentMethodId':pay,
+      'amount':amount,
+      'subscriptionName':getTitle,
+      'recurringPeriod':selectedItem,
+    }).then((value) {
+      subscriptionPayment=SubscriptionModel.fromJson(value.data);
+      if(subscriptionPayment!.data!.clientSecret!=null) {
+        print(subscriptionPayment!.data!.clientSecret);
+        Stripe.instance.handleNextAction(subscriptionPayment!.data!.clientSecret.toString()).then((value) {
+          otp=value.id;
+          s=value;
+          // HomeCubit();
+          emit(ShowOTPSuccess());
+        }).catchError((error){
+          print(error.toString());
+          emit(ShowOTPError(error));
+        });
 
+      }
+      else{
+        emit(GetSubscriptionStatSuccess(singlePay:subscriptionPayment!));
+      }
+    }).catchError((error){
+      print(error.toString());
+      emit(GetSubscriptionStateError(error));
+    });
+  }
+  void SingleDonationOTP(){
+    emit(GetSingleDonationStateLoadingOTP());
+    DioHelper.postData(url:'/single-charge/create',data: {
+      'paymentIntentId':otp
+    }).then((value) {
+      singlePaymentOTP=SinglePayment.fromJson(value.data);
+      emit(GetSingleDonationStateSuccessOTP(singlePay:singlePaymentOTP!));
+      otp='';
+    }).catchError((error){
+      print(error.toString());
+      emit(GetSingleDonationStateErrorOTP(error));
+    });
+  }
+  void ShowOTPSheet(String secret,context){
+    emit(ShowOTPLoading());
+    Stripe.instance.handleNextAction(secret).then((value) {
+      otp=value.id;
+      HomeCubit().SingleDonationOTP();
+    }).catchError((error){
+      print(error.toString());
+      emit(ShowOTPError(error));
+    });
+  }
+  void GetPaymentMethodId(String controller,String controllerexmonth,String controllerexyear,String controllerccv,String controllerName,String controllerMail,String controllerCountry,String controllerLine,String controllerCity,String controllerZip){
+    emit(GetPaymentMethodIdStateLoading());
+     Stripea.Stripe.instance.api.createPaymentMethod({
+       'type': 'card',
+       'card': {
+        'number':controller,
+        'exp_month': controllerexmonth,
+        'exp_year': controllerexyear,
+        'cvc': controllerccv,
+      },
+       'billing_details': {
+         'email': controllerMail??'', // Add the email address here
+         'name': controllerName??'',
+         'address': {
+           'line1': controllerLine??'',
+           'city': controllerCity??'',
+           'state': '',
+           'postal_code': controllerZip??'',
+           'country': controllerCountry??'',
+         },
+       },
+
+    }).then((value) {
+      pay=value['id'].toString();
+      print(pay);
+      if(!userCardList.contains(controller)) {
+        if(CashHelper.getListData(key:'cashed_cards_list')!=null) {
+          userCardList=CashHelper.getListData(key:'cashed_cards_list');
+        }
+        userCardList.add(controller);
+        DioHelper.postData(url: '/payment-method/save', data: {
+        'paymentMethodId':pay,
+      }).then((value) {
+        CashHelper.sharedPreferences!.setStringList('cashed_cards_list',userCardList);
+        print(userCardList);
+        });
+      }
+      emit(GetPaymentMethodIdStateSuccess());
+
+    })
+        .catchError((error){
+      print(error.toString());
+      emit(GetPaymentMethodIdStateError(error));
+    });
+  }
   bool isClicked = false;
-
 }

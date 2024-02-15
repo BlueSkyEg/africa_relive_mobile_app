@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import '../../core/helper/Cashhelper/cash_helper.dart';
+
 String getType='';
 String getImage='';
 String getTitle='';
@@ -18,3 +20,4 @@ String getBlogsB2='';
 List<String> blogsImagesList=[];
 List<int> projectAmountsList=[];
 int amount=0;
+List<String> userCardList=CashHelper.getListData(key:'cashed_cards_list')??[];

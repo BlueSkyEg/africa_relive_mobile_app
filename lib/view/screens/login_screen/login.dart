@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Padding(padding:  EdgeInsets.only(bottom: 16.0,top: 40), child:FormFields(controller: passController, labelText: 'Password', hintText: '',isPass: true,),),
                               ButtonLogin(
                                   onTap:()async{
-                                LoginCubit.get(context).UserLogin();
+                                // LoginCubit.get(context).UserLogin();
                                 // DioHelper.getData(url: '/payment-method/setup-intent').then((value) {
                                 //   print(value.data['clientSecret']);
                                 // });

@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, curly_braces_in_flow_control_structures
 
+import 'package:africa_relief/view/screens/annual_receipts_screen/annual_reciept_screen.dart';
 import 'package:africa_relief/view/screens/donation_history_screen/donation_history.dart';
+import 'package:africa_relief/view/screens/notification/notification_screen.dart';
 import 'package:africa_relief/view/screens/recurring_donation/recurring_donations_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +24,10 @@ class ProfileRows extends StatelessWidget{
           Navigator.push(context,MaterialPageRoute(builder: (context) => RecurringDonationScreen(),) );
         if(label=='Setting')
           Navigator.push(context,MaterialPageRoute(builder: (context) => SettingScreen(),) );
+        if(label=='Annual Receipts')
+          Navigator.push(context,MaterialPageRoute(builder: (context) => AnnualReceiptScreen(),) );
+        if(label=='Notifications ')
+          Navigator.push(context,MaterialPageRoute(builder: (context) => NotificationScreen(),) );
       },
       child: Padding(
         padding:  EdgeInsets.symmetric(vertical: 8.0),

@@ -18,18 +18,18 @@ import '../../../componants/variable.dart';
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
   static LoginCubit get(context) => BlocProvider.of(context);
-  void UserLogin(){
-    emit(GetLoginStateLoading());
-   DioHelper.postData(url:'/create-single-charge',data: {
-     'paymentMethodId':pay,
-     'amount':amount,
-     'paymentDescription':'الحمد لله'
-   }).then((value) {
-     emit(GetLoginStateSuccess());
-   }).catchError((error){
-      print(error.toString());
-      emit(GetLoginStateError(error));
-    });
-  }
+  // void UserLogin(){
+  //   emit(GetLoginStateLoading());
+  //  DioHelper.postData(url:'/create-single-charge',data: {
+  //    'paymentMethodId':pay,
+  //    'amount':amount,
+  //    'paymentDescription':'الحمد لله'
+  //  }).then((value) {
+  //    emit(GetLoginStateSuccess());
+  //  }).catchError((error){
+  //     print(error.toString());
+  //     emit(GetLoginStateError(error));
+  //   });
+  // }
 
 }

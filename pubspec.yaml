@@ -51,6 +51,8 @@ dependencies:
   smooth_page_indicator:
   flutter_stripe:
   stripe_sdk:
+  country_calling_code_picker:
+  country_list_pick:
 
 dev_dependencies:
   flutter_test:
