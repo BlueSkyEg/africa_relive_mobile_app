@@ -43,6 +43,7 @@ dependencies:
   stylish_bottom_bar:
   flutter_bloc:
   carousel_slider:
+  fluttertoast: ^8.0.8
   hidable:
   wtf_sliding_sheet: ^1.1.0
   dio:

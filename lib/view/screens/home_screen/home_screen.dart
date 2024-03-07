@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget{
                   SizedBox(
                       height: 105,
                       child: BlogsList()),
-                  SizedBox(height: 0,)
+                  SizedBox(height: 16,)
 
                 ],
               ),

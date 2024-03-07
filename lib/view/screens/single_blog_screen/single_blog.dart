@@ -70,15 +70,14 @@ class _SingleBlogScreenState extends State<SingleBlogScreen> {
               ),
               Padding(
                 padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/2),
-                child: DonationLogin(
+                child: DonationButton(
                   onTap: (){
                     setState(() {
                       showModalBottomSheet(
                         useSafeArea: true,
                         isScrollControlled: true,
                         context: context,
-                        builder: (context) =>
-                            DonationBottomSheet(),
+                        builder: (context) => DonationBottomSheet(),
                         shape: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(25)),

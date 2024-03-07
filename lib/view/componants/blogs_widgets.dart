@@ -94,7 +94,7 @@ class _HeaderOfSingleBlogState extends State<HeaderOfSingleBlog> {
                             color: HexColor('F1F7F3'),
                             borderRadius: BorderRadius.circular(50)
                         ),
-                        child: Text(getBlogsType,style: TextStyle(color: buttonsColor,fontSize: 12),)),
+                        child: Text(getBlogsType,style: TextStyle(color: AppColors.buttonsColor,fontSize: 12),)),
                   ),
                   Container(
                     height: 24,
@@ -162,14 +162,14 @@ class _ImagesSliderState extends State<ImagesSlider> {
                 ),
                 IconButton(onPressed: () {
                   setState(() {
-                    widget.controller.nextPage();
+                    widget.controller.previousPage();
                   });
                 }, icon:Icon( Icons.arrow_forward_ios,color: Colors.white,size: 25,))
               ],
             ),
             IconButton(onPressed: () {
               setState(() {
-                widget.controller.previousPage();
+                widget.controller.nextPage();
               });
             }, icon:Icon( Icons.arrow_back_ios,color: Colors.white,size: 25,))
           ],

@@ -11,18 +11,18 @@ import 'core/apis/dio.dart';
 import 'core/helper/Cashhelper/cash_helper.dart';
 import 'core/helper/blocobserver/bloc_obsorver.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as st;
-
-
-
 void main() async{
   Stripe.init(ApiKeys.publishableKey);
   st.Stripe.publishableKey= ApiKeys.publishableKey;
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
+  DioHelperLogin.init();
   Bloc.observer = SimpleBlocObserver();
   await CashHelper.int();
-  // userCardList=[];
-  // CashHelper.sharedPreferences!.setStringList('cashed_cards_list', userCardList);
+  token=await CashHelper.getData(key: 'token')!=null?CashHelper.getData(key: 'token'):'';
+  name=await CashHelper.getData(key: 'name')!=null?CashHelper.getData(key: 'name'):'';
+  email=await CashHelper.getData(key: 'email')!=null?CashHelper.getData(key: 'email'):'';
+  userCardList=['100'];// CashHelper.sharedPreferences!.setStringList('cashed_cards_list', userCardList);
   Widget? startScreen =const LoginScreen();
   runApp(MyApp(startScreen: startScreen,));
 }
@@ -36,14 +36,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
-
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

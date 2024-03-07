@@ -77,7 +77,7 @@ class _BlogsScreenState extends State<BlogsScreen> {
                   if(blogs.isNotEmpty)
                     ProjectsList(blogs: blogs,),
                   if(blogs.isEmpty)
-                    Center(child: Text('No Projects Yet...',style: TextStyle(color: greyTextColor,fontSize: 14),))
+                    Center(child: Text('No Projects Yet...',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14),))
                 ],
               ),
             ),

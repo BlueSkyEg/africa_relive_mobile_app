@@ -36,12 +36,12 @@ class NotificationItemBuilder extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('New project added',style: TextStyle(fontSize: 14,color: greyTextColor),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                    Text('New project added',style: TextStyle(fontSize: 14,color: AppColors.greyTextColor),maxLines: 1,overflow: TextOverflow.ellipsis,),
                     Text('New project added',style: TextStyle(fontSize: 16,color: Colors.black),maxLines: 2,overflow: TextOverflow.ellipsis,),
                   ]
                 ),
               )),
-          Text('2h ago',style: TextStyle(fontSize: 12,color: greyTextColor),maxLines: 1,overflow: TextOverflow.ellipsis,),
+          Text('2h ago',style: TextStyle(fontSize: 12,color: AppColors.greyTextColor),maxLines: 1,overflow: TextOverflow.ellipsis,),
         ],
       ),
     );

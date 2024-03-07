@@ -4,9 +4,12 @@ import 'package:africa_relief/view/screens/navigation_main_screen/navigation_scr
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../config/themes/colors.dart';
+
 class CustomAppBar extends StatefulWidget {
   final String text;
-  const CustomAppBar({super.key, required this.text,});
+  final void Function()? onBack;
+  const CustomAppBar({super.key, required this.text, this.onBack,});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -27,12 +30,12 @@ class _CustomAppBarState extends State<CustomAppBar> with TickerProviderStateMix
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),)),
+              onTap: widget.onBack??() => Navigator.pop(context),
               child: Icon(Icons.arrow_back_ios,size: 20,color: Colors.black,),),
             Padding(
               padding:  EdgeInsets.only(left: 20.0,top: 0),
-              child: Text(widget.text,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),maxLines: 1,),
-            ),
+              child: Text(widget.text,style: TextStyle(color: AppColors.blacks,fontWeight: FontWeight.bold,fontSize: 16),maxLines: 1,overflow: TextOverflow.ellipsis,),),
+
 
           ],
         ),
@@ -47,7 +50,6 @@ class Progress extends StatefulWidget{
   @override
   State<Progress> createState() => _ProgressState();
 }
-
 class _ProgressState extends State<Progress> {
   @override
   Widget build(BuildContext context) {

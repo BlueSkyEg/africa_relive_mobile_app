@@ -41,48 +41,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
           body: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              Stack(
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                          ),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl: getImage,
-                            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                          ),
-                      ),
-                      Padding(
-                        padding:  EdgeInsets.only(left: 12.0,top: 40),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),)),
-                              child: Icon(Icons.arrow_back_ios,size: 25,color: Colors.white,),),
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12.0,top: 8),
-                              child: GestureDetector(
-                                  child: SvgPicture.asset('assets/images/share.svg',color: Colors.white,)
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  ProjectParagraph(),
-                ],
-              ),
+              TopSideOfSingleProject(),
               Padding(
                 padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/2,bottom: 10),
-                child: DonationLogin(
+                child: DonationButton(
                   onTap: (){
                     setState(() {
                       showModalBottomSheet(
@@ -90,61 +52,11 @@ class _ProjectScreenState extends State<ProjectScreen> {
                         context: context,
                         builder: (context) => DonationBottomSheet(onTap: (){
                               setState(() {
-                                if(userCardList.isEmpty) {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen(),));
-                                }
+                                if(userCardList.isEmpty) {Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen(),));}
                                 if(userCardList.isNotEmpty){
                                   showDialog(
                                     context: context,
-                                      builder: (context) => Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                          child: Container(
-                                            height: 280,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(8.0),
-                                            ),
-                                            padding: EdgeInsets.all(16.0),
-                                            child: Column(
-                                              children: [
-                                                Icon(Icons.add_card,size: 100,),
-                                                Padding(
-                                                  padding:  EdgeInsets.only(top: 12.0,bottom: 12),
-                                                  child: Text(
-                                                    'Do you want to choose from your saves cards?',
-                                                    style: TextStyle(fontSize: 18.0,color: buttonsColor,decorationColor: Colors.white,decorationThickness: 0),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: ButtonLogin(
-                                                        color: Colors.white,
-                                                          isLogin: false,
-                                                          onTap: ()async{
-                                                            Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen(),));
-                                                          },
-                                                          textwidget: Text('No Thanks',style: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w600))),
-                                                    ),
-                                                    SizedBox(width: 10,),
-                                                    Expanded(
-                                                      child: ButtonLogin(
-                                                          isLogin: false,
-                                                          onTap: ()async{
-                                                            Navigator.push(context, MaterialPageRoute(builder: (context) => SavesCards(),));
-                                                          },
-                                                          textwidget: Text('Ok',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600))),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      builder: (context) => SelectedPayWay(),
                                   );
                                 }
                               });
@@ -157,13 +69,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     });
                   },),
               )
-
             ],
           ),
         ),
-        listener: (context, state) {
-
-        },
+        listener: (context, state) {},
       ),
     );
   }

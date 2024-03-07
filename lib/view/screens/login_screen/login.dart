@@ -1,19 +1,22 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, curly_braces_in_flow_control_structures
 
 import 'package:africa_relief/config/themes/colors.dart';
+import 'package:africa_relief/core/helper/Cashhelper/cash_helper.dart';
+import 'package:africa_relief/view/componants/api_errors_handeller.dart';
+import 'package:africa_relief/view/componants/app_widgets.dart';
+import 'package:africa_relief/view/componants/variable.dart';
+import 'package:africa_relief/view/screens/home_screen/home_screen.dart';
 import 'package:africa_relief/view/screens/login_screen/login_cubit/login_cubit.dart';
 import 'package:africa_relief/view/screens/login_screen/login_cubit/login_states.dart';
+import 'package:africa_relief/view/screens/login_screen/reset_passwords/forget_password_screen.dart';
+import 'package:africa_relief/view/screens/navigation_main_screen/navigation_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:stripe_sdk/stripe_sdk.dart';
-import '../../../core/apis/dio.dart';
-import '../../../models/payment_intint_model.dart';
+import '../../../config/themes/icons.dart';
 import '../../componants/loginWidgets.dart';
-import 'package:flutter_stripe/flutter_stripe.dart' as str;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,6 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
   var formKey = GlobalKey<FormState>();
   var emailController = TextEditingController();
   var passController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(token);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -39,93 +48,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   key: formKey,
                   child: Column(
                     children: [
+                      LogoItemBuilder(),
                       Padding(
-                        padding:  EdgeInsets.only(top: 0,bottom: 40),
-                        child: Stack(
-                          alignment: Alignment.center,
+                        padding: EdgeInsets.only(right: 14, left: 14),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              height: 210,
-                              width: double.infinity,
-                              child: Opacity(
-                                  opacity: .05,
-                                  child: CachedNetworkImage(
-                                    imageUrl: 'https://s3-alpha-sig.figma.com/img/15b7/ece2/fd92d0da299387f0a38037a97c4284da?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kAWaycqBVocVYWMGz7ogfEbTF2L2llL~9U3lK1nrtdib5oICu2bJINA0BnH2smDCwGLUOI8LOb6jb9BdSnT8AhQjQfL2NKRSuuBbZFslmLhXmqIiVtw0hrzaxKvP0~FClqmBlbQw1TBM8oZW45nNDZkvV3Gxx1dwhYYjIqwTr~2UlBqrdwebwRukTDxgxUhX2Jw05WPxTTBMVqpgdAIZFNaA9QQfmgHwyCf~~Df3n-Mt-D-07XhXzFsbitAX-Xe6p7AlveBr8JRCzHFAfuU5C-gWYxyAHTOrzxX3E92YrOJduIBbPf2JYAu6dbe-b43-tcymoU8s7Onhc3u9b2N-4g__',
-                                    fit: BoxFit.fill,
-                                    placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
-                                  )
-                              ),
+                            FormFields(controller: emailController, labelText: 'E-mail', hintText: 'example@example.com',prefixIcon:Icon(IconBroken.Message,color: AppColors.buttonsColor,)),
+                            FormFields(controller: passController, labelText: 'Password', hintText: 'Enter Password',isPass: true,),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: TextButton(
+                                  onPressed: ()async{
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordScreen(),));
+                                  },
+                                  child: Text('Forgot password?',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14))),
                             ),
-                            Padding(
-                              padding:  EdgeInsets.only(top: 170.0),
-                              child: Container(
-                                  height: 112,
-                                  width: 112,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white,
-                                        spreadRadius: 20,
-                                        blurRadius: 50,
-                                        offset: Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: CachedNetworkImage(
-                                      imageUrl: 'https://s3-alpha-sig.figma.com/img/23e0/00b4/25f00d4ad8dbbe20b8a6ce69ea63435e?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=iTCvY1fPU6BPG-6so~uK6zKju~ER9ufSAbN5noRluxXgV4AU-pnfxv7EQ2-Syr5uwB0oVkgYJX4HRML2u0vmryHXqdycR78ayigOb8foSvyI9gOVSZHLQFlNr6KprZg2MU4QCgouLimv-qOeuXdcG0-vHhWNVBM~GzTGpi-QSvqBsZZ69klUOAgWtm5WpLX~mmDux--vwo6434Dmu2rkqORZ6bYS6o8tAkp0x9GPmqY-EIntKsSuFUS4AR48BCKOMqHp3UKqLm~aZIeiav1zgCWlNPwbuQ4FCuMBUzWvfbSULNCSgRLMU0FRMnR~3duyqXwsyu7eyijs3JDqfnyeKQ__',
-                                      fit: BoxFit.fill,
-                                    placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
-                                  )
-                              ),
+                            ButtonItemBuilder(
+                              isLogin: false,
+                                onTap:()async{
+                              if (formKey.currentState!.validate()) {
+                                FocusScope.of(context).unfocus();
+                              }
+                              LoginCubit.get(context).Login(mail: emailController.text, pass: passController.text);
+                            } ,
+                            textwidget: state is GetLoginStateLoading?Progress():Text('Login',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),),
                             ),
+                            OrLine(),
+                            RowLoginWays(),
+                            RegisterLine(),
+                            SkipButton()
                           ],
-                        ),
-                      ),
-                      Align(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 14, left: 14,bottom: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              FormFields(controller: emailController, labelText: 'E-mail', hintText: 'example@example.com',),
-                              Padding(padding:  EdgeInsets.only(bottom: 16.0,top: 40), child:FormFields(controller: passController, labelText: 'Password', hintText: '',isPass: true,),),
-                              ButtonLogin(
-                                  onTap:()async{
-                                // LoginCubit.get(context).UserLogin();
-                                // DioHelper.getData(url: '/payment-method/setup-intent').then((value) {
-                                //   print(value.data['clientSecret']);
-                                // });
-                               //  SetupPaymentIntent a;
-                               // await Stripe.instance.api.createPaymentMethod({
-                               //  'type': 'card',
-                               //  'card': {
-                               //  'number': '4242424242424242',
-                               //  'exp_month': '12',
-                               //  'exp_year': '24',
-                               //  'cvc': '123',
-                               //  }
-                               //  }).then((value) {
-                               //   print(value['id']);
-                               // });
-                                if (formKey.currentState!.validate()) {
-                                  FocusScope.of(context).unfocus();
-                                }
-                              } ,
-                              textwidget: Text(''),
-                              ),
-                              TextButton(
-                                  onPressed: ()async{},
-                                  child: Text('Forget password?',style: TextStyle(color: buttonsColor,fontSize: 14),)),
-                              OrLine(),
-                              RowLoginWays(),
-                              RegisterLine(),
-                              SkipButton()
-                            ],
-                          ),
                         ),
                       ),
                     ],
@@ -136,7 +90,28 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         listener: (context, state) {
-
+          if(state is GetLoginStateSuccess)
+          {
+            if(state.login!.success==true) {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),));
+              ShowToast(message: '${state.login.message}', state:ToastState.SUCCESS);
+              CashHelper.saveData(key: 'token', value: state.login.data!.accessToken.toString());
+              token=CashHelper.getData(key: 'token');
+              CashHelper.saveData(key: 'name', value: state.login.data!.user!.name.toString());
+              name=CashHelper.getData(key: 'name');
+              CashHelper.saveData(key: 'email', value: state.login.data!.user!.email.toString());
+              email=CashHelper.getData(key: 'email');
+            }
+            else
+              ShowToast(message: '${state.login.message}', state:ToastState.ERROR);
+            }
+          if(state is GetLoginStateError&&state.error.toString().contains(Errors.authenticationError))
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ErrorDialog(error: Errors.authenticationErrorText,);
+              },
+            );
         },
       ),
     );

@@ -80,42 +80,26 @@ class _HomeState extends State<Home> {
                         filter='';
                         AppCubit.get(context).changeBottomNave(value,context);
                       });
-                      // void showTutorial() {
-                      //   if (appBarCase == false && currantScreen == 2)
-                      //     tutorialCoachMarkHome.show(context: context);
-                      // }
-                      //
-                      // if (appBarCase == false && currantScreen == 2) {
-                      //   createTutorialHome();
-                      //   Future.delayed(Duration.zero, showTutorial);
-                      // }
-                      // pageNumber = 1;
-                      // isPending = true;
-                      // folderPath = '';
-                      // folders = [];
-                      // sortKey='';
-                      // sortOrder='';
-                      // AppCubit.get(context).changeBottomNave(value,context);
                     },                      currentIndex: currantScreen,
                     items: [
                       BottomBarItem(
-                          selectedColor: buttonsColor,
-                          icon: Icon(IconBroken.Home,color: currantScreen==0?buttonsColor:Colors.grey,),
+                          selectedColor: AppColors.buttonsColor,
+                          icon: Icon(IconBroken.Home,color: currantScreen==0?AppColors.buttonsColor:Colors.grey,),
                           title: Text('Home',
                               style: TextStyle(fontSize: 10))),
                       BottomBarItem(
-                          selectedColor: buttonsColor,
-                          icon: Icon(IconBroken.Category,color: currantScreen==1?buttonsColor:Colors.grey,),
+                          selectedColor: AppColors.buttonsColor,
+                          icon: Icon(IconBroken.Category,color: currantScreen==1?AppColors.buttonsColor:Colors.grey,),
                           title: Text('Projects',
                               style: TextStyle(fontSize: 10))),
                       BottomBarItem(
-                          selectedColor: buttonsColor,
-                          icon: Icon(IconBroken.Paper,color: currantScreen==2?buttonsColor:Colors.grey,),
+                          selectedColor: AppColors.buttonsColor,
+                          icon: Icon(IconBroken.Paper,color: currantScreen==2?AppColors.buttonsColor:Colors.grey,),
                           title: Text('News',
                               style: TextStyle(fontSize: 10))),
                       BottomBarItem(
-                          selectedColor: buttonsColor,
-                          icon: SvgPicture.asset('assets/images/profile.svg',color: currantScreen==3?buttonsColor:Colors.grey,),
+                          selectedColor: AppColors.buttonsColor,
+                          icon: SvgPicture.asset('assets/images/profile.svg',color: currantScreen==3?AppColors.buttonsColor:Colors.grey,),
                           title: Text('Profile',
                               style: TextStyle(fontSize: 10))),
                     ],

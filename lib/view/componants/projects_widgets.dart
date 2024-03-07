@@ -52,14 +52,14 @@ class CardOfGridviewOfProjects extends StatelessWidget{
           children: [
             Container(
               height: 230,
-              width: 180,
+              width: 230,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               decoration: BoxDecoration(
                   color: Colors.black.withOpacity(.05),
                   borderRadius: BorderRadius.circular(30)
               ),
               child: CachedNetworkImage(
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 imageUrl: image,
                 placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
                 errorWidget: (context, url, error) => Icon(Icons.error),
@@ -75,7 +75,6 @@ class CardOfGridviewOfProjects extends StatelessWidget{
                       width:90,
                       padding: EdgeInsets.all(8),
                       decoration:BoxDecoration(
-                        // color:  HexColor('1AFFFFFF'),
                           gradient: LinearGradient(
                             begin: Alignment.topRight,
                             end: Alignment.topLeft,
@@ -161,8 +160,8 @@ class _RowOfProjectsFilterState extends State<RowOfProjectsFilter> {
         padding: EdgeInsetsDirectional.all(8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            border: Border.all(color: borderColor),
-          color: filter.contains(widget.lapel)?buttonsColor:null
+            border: Border.all(color: AppColors.borderColor),
+          color: filter.contains(widget.lapel)?AppColors.buttonsColor:null
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -171,12 +170,7 @@ class _RowOfProjectsFilterState extends State<RowOfProjectsFilter> {
             Container(
               // height: 22,
               // width: 22,
-              child: CachedNetworkImage(
-                // fit: BoxFit.fill,
-                imageUrl: widget.imagePath,
-                placeholder: (context, url) => Center(child: CircularProgressIndicator(color:HexColor('F7F9FA'),)),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
+              child: SvgPicture.asset(widget.imagePath,fit: BoxFit.cover,)
             ),
             Padding(
               padding:  EdgeInsets.only(left: 8,top: 0.0,right: 8),
@@ -224,9 +218,9 @@ class _FilterListState extends State<FilterList> {
                   height: 32,
                   padding: EdgeInsetsDirectional.only(top: 5,bottom: 5,start: 14,end: 14),
                   decoration: BoxDecoration(
-                      color: filter==''?buttonsColor:Colors.white,
+                      color: filter==''?AppColors.buttonsColor:Colors.white,
                       borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: borderColor)
+                      border: Border.all(color: AppColors.borderColor)
                   ),
                   child: Center(child: Text('All',style: TextStyle(color: filter==''?Colors.white:Colors.black,fontSize: 14),)),
                 ),
@@ -237,7 +231,7 @@ class _FilterListState extends State<FilterList> {
                       filter=widget.food;
                       widget.onfoodTap(widget.food);
                     } ,
-                    child: RowOfProjectsFilter(lapel:'Food Aid',imagePath: food)),
+                    child: RowOfProjectsFilter(lapel:'Food Aid',imagePath: Images.food)),
               ),
               Expanded(
                 child: GestureDetector(
@@ -245,7 +239,7 @@ class _FilterListState extends State<FilterList> {
                       filter=widget.education;
                       widget.onfoodTap(widget.education);
                     } ,
-                    child: RowOfProjectsFilter(imagePath: education,lapel: 'Education',)),
+                    child: RowOfProjectsFilter(imagePath: Images.education,lapel: 'Education',)),
               ),
             ],
           ),
@@ -257,7 +251,7 @@ class _FilterListState extends State<FilterList> {
                       filter=widget.medical;
                       widget.onfoodTap(widget.medical);
                     } ,
-                    child: RowOfProjectsFilter(imagePath: medical,lapel:'Medical' ,)),
+                    child: RowOfProjectsFilter(imagePath: Images.medical,lapel:'Medical' ,)),
               ),
               Expanded(
                 child: GestureDetector(
@@ -265,7 +259,7 @@ class _FilterListState extends State<FilterList> {
                       filter=widget.water;
                       widget.onfoodTap(widget.water);
                     } ,
-                    child: RowOfProjectsFilter(imagePath: water,lapel: 'Water',)),
+                    child: RowOfProjectsFilter(imagePath: Images.water,lapel: 'Water',)),
               ),
               Expanded(
                 child: GestureDetector(
@@ -273,7 +267,7 @@ class _FilterListState extends State<FilterList> {
                       filter=widget.zakat;
                       widget.onfoodTap(widget.zakat);
                     } ,
-                    child: RowOfProjectsFilter(imagePath: zakat,lapel: 'Zakat',)),
+                    child: RowOfProjectsFilter(imagePath: Images.zakat,lapel: 'Zakat',)),
               ),
 
             ],
@@ -285,13 +279,13 @@ class _FilterListState extends State<FilterList> {
                     filter=widget.orphan;
                     widget.onfoodTap(widget.orphan);
                   } ,
-                  child: RowOfProjectsFilter(imagePath: orphans,lapel: 'Orphan Support',)),
+                  child: RowOfProjectsFilter(imagePath: Images.orphans,lapel: 'Orphan Support',)),
               GestureDetector(
                   onTap:(){
                     filter=widget.ramadan;
                     widget.onfoodTap(widget.ramadan);
                   } ,
-                  child: RowOfProjectsFilter(imagePath: ramadan,lapel: 'Ramadan',)),
+                  child: RowOfProjectsFilter(imagePath: Images.ramadan,lapel: 'Ramadan',)),
             ],
           ),
           ]

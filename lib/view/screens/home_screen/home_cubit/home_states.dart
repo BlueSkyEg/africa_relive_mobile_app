@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import '../../../../models/payment_intint_model.dart';
-import '../../../../models/retrieve_all_payment_model.dart';
-import '../../../../models/single_payment_model.dart';
-import '../../../../models/subscription_model.dart';
+import '../../../../models/payment_models/payment_intint_model.dart';
+import '../../../../models/payment_models/retrieve_all_payment_model.dart';
+import '../../../../models/payment_models/single_payment_model.dart';
+import '../../../../models/payment_models/subscription_model.dart';
 
 abstract class HomeStates{}
 class HomeInitialState extends HomeStates{}
@@ -25,8 +25,7 @@ class GetSingleDonationStateError extends HomeStates{
 }
 class GetSingleDonationStateLoading extends HomeStates{}
 class GetSubscriptionStatSuccess extends HomeStates{
-  final SubscriptionModel singlePay;
-  GetSubscriptionStatSuccess({required this.singlePay});
+
 }
 class GetSubscriptionStateError extends HomeStates{
   final  error;

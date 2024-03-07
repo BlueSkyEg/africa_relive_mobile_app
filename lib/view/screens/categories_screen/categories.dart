@@ -48,12 +48,12 @@ class CategoriesScreen extends StatelessWidget{
                     children: [
                       Padding(
                         padding:  EdgeInsets.symmetric(vertical: 16.0),
-                        child: ProjectsCategories(imagePath: food,lapel: 'Food Aid',),
+                        child: ProjectsCategories(imagePath: Images.food,lapel: 'Food Aid',),
                       ),
-                      ProjectsCategories(imagePath: medical,lapel:'Medical' ,),
+                      ProjectsCategories(imagePath: Images.medical,lapel:'Medical' ,),
                       Padding(
                         padding:  EdgeInsets.symmetric(vertical: 16.0),
-                        child: ProjectsCategories(imagePath: orphans,lapel:'Orphan Support' ,),
+                        child: ProjectsCategories(imagePath: Images.orphans,lapel:'Orphan Support' ,),
                       ),
 
                     ],
@@ -64,9 +64,9 @@ class CategoriesScreen extends StatelessWidget{
                     children: [
                       Padding(
                         padding:  EdgeInsets.symmetric(vertical: 16.0),
-                        child: ProjectsCategories(imagePath:water,lapel: 'Water',),
+                        child: ProjectsCategories(imagePath:Images.water,lapel: 'Water',),
                       ),
-                      ProjectsCategories(imagePath: zakat,lapel:'Zakat' ,),
+                      ProjectsCategories(imagePath: Images.zakat,lapel:'Zakat' ,),
 
                     ],
                   ),
@@ -76,9 +76,9 @@ class CategoriesScreen extends StatelessWidget{
                     children: [
                       Padding(
                         padding:  EdgeInsets.symmetric(vertical: 16.0),
-                        child: ProjectsCategories(imagePath: education,lapel: 'Education',),
+                        child: ProjectsCategories(imagePath: Images.education,lapel: 'Education',),
                       ),
-                      ProjectsCategories(imagePath: ramadan,lapel:'Ramadan' ,),
+                      ProjectsCategories(imagePath: Images.ramadan,lapel:'Ramadan' ,),
 
                     ],
                   ),

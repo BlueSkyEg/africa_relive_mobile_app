@@ -31,25 +31,8 @@ class _SavesCardsState extends State<SavesCards> {
      create: (context) => HomeCubit()..GetRetrieveAllPayments(),
      child: BlocConsumer<HomeCubit,HomeStates>(
        builder: (context, state) =>  Scaffold(
-         appBar: AppBar(
-           leading:Padding(
-             padding:  EdgeInsets.only(left: 12.0,bottom: 0),
-             child: Row(
-               crossAxisAlignment: CrossAxisAlignment.center,
-               mainAxisAlignment: MainAxisAlignment.start,
-               children: [
-                 GestureDetector(
-                   onTap: () => Navigator.pop(context),
-                   child: Icon(Icons.arrow_back_ios,size: 20,color: Colors.black,),),
-                 Padding(
-                   padding: const EdgeInsets.only(left: 4.0,top: 0),
-                   child: Text('Your Cards',style: TextStyle(color: greyTextColor,fontWeight: FontWeight.bold,),maxLines: 1,overflow: TextOverflow.ellipsis,),
-                 ),
-               ],
-             ),
-           ),
-           leadingWidth: MediaQuery.of(context).size.width,
-         ),
+         appBar: PreferredSize(
+             preferredSize:Size.fromHeight(40),child: CustomAppBar(text:'Your Cards')),
          body: Padding(
            padding: const EdgeInsets.all(13.0),
            child: Column(
@@ -64,8 +47,8 @@ class _SavesCardsState extends State<SavesCards> {
          ),
        ),
        listener: (context, state) {
-         if(state is GetSingleDonationStateSuccess&&state.singlePay.success==true||state is GetSubscriptionStatSuccess&&state.singlePay.success==true) {
-           pay='';
+         if(state is GetSingleDonationStateSuccess&&state.singlePay.success==true) {
+           paymentMethodeID='';
            showDialog(context: context, builder: (BuildContext context) {return DonationSuccessDialogItemBuilder();},);
          }
          if(state is ShowOTPSuccess){
@@ -86,7 +69,7 @@ class _SavesCardsState extends State<SavesCards> {
                    },
                  );
                  DioHelper.postData(url:'/single-charge/create',data: {
-                   'paymentIntentId':otp
+                   'paymentIntentId':otpID
                  }).then((value) {
                    showDialog(
                      context: context,

@@ -1,15 +1,26 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
+import 'package:africa_relief/config/themes/icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../config/themes/colors.dart';
+import '../screens/payment_screen/payment_screen.dart';
+import '../screens/payment_screen/user_cards_screen.dart';
+import '../screens/single_project_screen/project_screen.dart';
+import 'loginWidgets.dart';
 
-class DonationsHistory extends StatelessWidget{
+class DonationsHistory extends StatefulWidget{
   final bool isDonations;
    DonationsHistory({super.key,  this.isDonations=true});
 
+  @override
+  State<DonationsHistory> createState() => _DonationsHistoryState();
+}
+
+class _DonationsHistoryState extends State<DonationsHistory> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,7 +48,7 @@ class DonationsHistory extends StatelessWidget{
                           children: [
                             Padding(
                               padding:  EdgeInsets.only(bottom: 10.0),
-                              child: Text('ID',style: TextStyle(color: greyTextColor,fontSize: 14),),
+                              child: Text('ID',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14),),
                             ),
                             Text('225'),
                           ],
@@ -50,7 +61,7 @@ class DonationsHistory extends StatelessWidget{
                         children: [
                           Padding(
                             padding:  EdgeInsets.only(bottom: 10.0),
-                            child: Text('Form',style: TextStyle(color: greyTextColor,fontSize: 14)),
+                            child: Text('Form',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14)),
                           ),
                           Text('Food Basket'),
                         ],
@@ -70,7 +81,7 @@ class DonationsHistory extends StatelessWidget{
                         children: [
                           Padding(
                             padding:  EdgeInsets.only(bottom: 10.0),
-                            child: Text('date',style: TextStyle(color: greyTextColor,fontSize: 14)),
+                            child: Text('date',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14)),
                           ),
                           Text('10-2-2023'),
                         ],
@@ -83,7 +94,7 @@ class DonationsHistory extends StatelessWidget{
                       children: [
                         Padding(
                           padding:  EdgeInsets.only(bottom: 10.0),
-                          child: Text('Status',style: TextStyle(color: greyTextColor,fontSize: 14)),
+                          child: Text('Status',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14)),
                         ),
                         Container(
                             padding: EdgeInsets.all(8),
@@ -91,7 +102,7 @@ class DonationsHistory extends StatelessWidget{
                                 color: HexColor('F1F7F3'),
                                 borderRadius: BorderRadius.circular(50)
                             ),
-                            child: Text('completed',style: TextStyle(color: buttonsColor,fontSize: 12),)),
+                            child: Text('completed',style: TextStyle(color: AppColors.buttonsColor,fontSize: 12),)),
                       ],
                     ),
                   ),
@@ -99,9 +110,9 @@ class DonationsHistory extends StatelessWidget{
               ),
               Padding(
                 padding:  EdgeInsets.symmetric(vertical: 10.0),
-                child: Container(height: .3,width: double.infinity,color: greyTextColor,),
+                child: Container(height: .3,width: double.infinity,color: AppColors.greyTextColor,),
               ),
-              if(isDonations)
+              if(widget.isDonations)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -113,9 +124,9 @@ class DonationsHistory extends StatelessWidget{
                         children: [
                           Padding(
                             padding:  EdgeInsets.only(bottom: 10.0),
-                            child: Text('Amount',style: TextStyle(color: greyTextColor,fontSize: 14)),
+                            child: Text('Amount',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14)),
                           ),
-                          Text('\$200',style: TextStyle(color: buttonsColor,fontSize: 18)),
+                          Text('\$200',style: TextStyle(color: AppColors.buttonsColor,fontSize: 18)),
                         ],
                       ),
                     ),
@@ -133,15 +144,15 @@ class DonationsHistory extends StatelessWidget{
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('View Receipt ',style: TextStyle(color: buttonsColor,fontSize: 14),),
-                              Icon(Icons.arrow_forward,color: buttonsColor,size: 20,)
+                              Text('View Receipt ',style: TextStyle(color: AppColors.buttonsColor,fontSize: 14),),
+                              Icon(Icons.arrow_forward,color: AppColors.buttonsColor,size: 20,)
                             ],
                           )),
                     ),
                   ),
                 ],
               ),
-              if(isDonations==false)
+              if(widget.isDonations==false)
               Padding(
                 padding:  EdgeInsets.only(top: 8.0),
                 child: Row(
@@ -160,22 +171,79 @@ class DonationsHistory extends StatelessWidget{
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('View Receipt ',style: TextStyle(color: buttonsColor,fontSize: 14),),
-                                Icon(Icons.arrow_forward,color: buttonsColor,size: 20,)
+                                Text('View Receipt ',style: TextStyle(color: AppColors.buttonsColor,fontSize: 14),),
+                                Icon(Icons.arrow_forward,color: AppColors.buttonsColor,size: 20,)
                               ],
                             )),
                       ),
                     ),
                     Padding(
                       padding:  EdgeInsets.only(right: 12.0,left: 12),
-                      child: Container(
-                        height: 35,
-                        width: 35,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(color: greyTextColor)
+                      child: GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => Container(
+                                height: 150.h,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 16.0,top: 8),
+                                        child: Container(height: 4,color: AppColors.greyTextColor,width: MediaQuery.of(context).size.width/6,),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                            child: Icon(Icons.edit,color: AppColors.greyTextColor,),
+                                          ),
+                                          Text('Manage Subscription',style: TextStyle(color: AppColors.greyTextColor),)
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 24.0),
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => CancelDialogItemBuilder(),
+                                            );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                child: Icon(Icons.cancel,color: Colors.redAccent,),
+                                              ),
+                                              Text('Cancel Subscription',style: TextStyle(color: Colors.redAccent),)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              shape: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10)),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                            );
+                          });
+                        },
+                        child: Container(
+                          height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: AppColors.greyTextColor)
+                          ),
+                          child: Icon(Icons.more_vert,color: AppColors.greyTextColor,),
                         ),
-                        child: Icon(Icons.more_vert,color: greyTextColor,),
                       ),
                     )
                   ],
@@ -221,7 +289,7 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
                           children: [
                             Padding(
                               padding:  EdgeInsets.only(bottom: 10.0),
-                              child: Text('amount',style: TextStyle(color: greyTextColor,fontSize: 14),),
+                              child: Text('amount',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14),),
                             ),
                             Text('\$200',style: TextStyle(fontWeight: FontWeight.w600),),
                           ],
@@ -234,7 +302,7 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
                         children: [
                           Padding(
                             padding:  EdgeInsets.only(bottom: 10.0),
-                            child: Text('Donations',style: TextStyle(color: greyTextColor,fontSize: 14)),
+                            child: Text('Donations',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14)),
                           ),
                           Text('7',style: TextStyle(fontWeight: FontWeight.w600),),
                         ],
@@ -254,7 +322,7 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
               //           children: [
               //             Padding(
               //               padding:  EdgeInsets.only(bottom: 10.0),
-              //               child: Text('date',style: TextStyle(color: greyTextColor,fontSize: 14)),
+              //               child: Text('date',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14)),
               //             ),
               //             Text('10-2-2023'),
               //           ],
@@ -267,7 +335,7 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
               //         children: [
               //           Padding(
               //             padding:  EdgeInsets.only(bottom: 10.0),
-              //             child: Text('Status',style: TextStyle(color: greyTextColor,fontSize: 14)),
+              //             child: Text('Status',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14)),
               //           ),
               //           Container(
               //               padding: EdgeInsets.all(8),
@@ -275,7 +343,7 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
               //                   color: HexColor('F1F7F3'),
               //                   borderRadius: BorderRadius.circular(50)
               //               ),
-              //               child: Text('completed',style: TextStyle(color: buttonsColor,fontSize: 12),)),
+              //               child: Text('completed',style: TextStyle(color: AppColors.buttonsColor,fontSize: 12),)),
               //         ],
               //       ),
               //     ),
@@ -283,7 +351,7 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
               // ),
               Padding(
                 padding:  EdgeInsets.symmetric(vertical: 10.0),
-                child: Container(height: .3,width: double.infinity,color: greyTextColor,),
+                child: Container(height: .3,width: double.infinity,color: AppColors.greyTextColor,),
               ),
               if(isDonations)
               Row(
@@ -297,9 +365,9 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
                         children: [
                           Padding(
                             padding:  EdgeInsets.only(bottom: 10.0),
-                            child: Text('Year',style: TextStyle(color: greyTextColor,fontSize: 14)),
+                            child: Text('Year',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14)),
                           ),
-                          Text('2023',style: TextStyle(color: buttonsColor,fontSize: 18,fontWeight: FontWeight.w600)),
+                          Text('2023',style: TextStyle(color: AppColors.buttonsColor,fontSize: 18,fontWeight: FontWeight.w600)),
                         ],
                       ),
                     ),
@@ -317,8 +385,8 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('View Receipt ',style: TextStyle(color: buttonsColor,fontSize: 14),),
-                              Icon(Icons.arrow_forward,color: buttonsColor,size: 20,)
+                              Text('View Receipt ',style: TextStyle(color: AppColors.buttonsColor,fontSize: 14),),
+                              Icon(Icons.arrow_forward,color: AppColors.buttonsColor,size: 20,)
                             ],
                           )),
                     ),
@@ -344,8 +412,8 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('View Receipt ',style: TextStyle(color: buttonsColor,fontSize: 14),),
-                                Icon(Icons.arrow_forward,color: buttonsColor,size: 20,)
+                                Text('View Receipt ',style: TextStyle(color: AppColors.buttonsColor,fontSize: 14),),
+                                Icon(Icons.arrow_forward,color: AppColors.buttonsColor,size: 20,)
                               ],
                             )),
                       ),
@@ -357,9 +425,9 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
                         width: 35,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          border: Border.all(color: greyTextColor)
+                          border: Border.all(color: AppColors.greyTextColor)
                         ),
-                        child: Icon(Icons.more_vert,color: greyTextColor,),
+                        child: Icon(Icons.more_vert,color: AppColors.greyTextColor,),
                       ),
                     )
                   ],
@@ -373,4 +441,71 @@ class AnnualReceiptsItemBuilder extends StatelessWidget{
       ),
     );
   }
+}
+class CancelDialogItemBuilder extends StatelessWidget{
+  const CancelDialogItemBuilder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Container(
+          height: 280,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Image.asset('assets/images/cancel.png'),
+              Padding(
+                padding:  EdgeInsets.only(top: 12.0),
+                child: Text(
+                  'Are you sure you want to cancel your subscription?',
+                  style: TextStyle(fontSize: 14.0,color: Colors.grey,decorationColor: Colors.white,decorationThickness: 0),maxLines: 2,
+                ),
+              ),
+              Spacer(),
+              Row(
+                children: [
+                  Expanded(
+                    child: ButtonItemBuilder(
+                        color: Colors.white,
+                        isLogin: false,
+                        onTap: () async {
+                          Navigator.pop(context);
+                        },
+                        textwidget: Text('No, Keep',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600))),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: ButtonItemBuilder(
+                      color: Colors.redAccent,
+                        isLogin: false,
+                        onTap: () async {
+                          Navigator.pop(context);
+                        },
+                        textwidget: Text('Yes, Cancel ',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600))),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }

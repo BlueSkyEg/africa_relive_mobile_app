@@ -71,7 +71,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                 if(projects.isNotEmpty)
                 ProjectsGridView(projects: projects),
                 if(projects.isEmpty)
-                  Expanded(child: Center(child: Text('No Projects Yet...',style: TextStyle(color: greyTextColor,fontSize: 14),)))
+                  Expanded(child: Center(child: Text('No Projects Yet...',style: TextStyle(color: AppColors.greyTextColor,fontSize: 14),)))
               ],
             ),
           ),

@@ -9,6 +9,7 @@ import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -39,7 +40,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String country='US';
   @override
   void initState() {
-    print(userCardList);
+    _controllerName.text=name;
+    _controllerMail.text=email;
     super.initState();
   }
   @override
@@ -49,25 +51,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       create: (context) => HomeCubit(),
       child: BlocConsumer<HomeCubit,HomeStates>(
         builder: (context, state) => Scaffold(
-          appBar: AppBar(
-            leading:Padding(
-              padding:  EdgeInsets.only(left: 12.0,bottom: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Icon(Icons.arrow_back_ios,size: 20,color: Colors.black,),),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0,top: 0),
-                    child: Text('To complete your payment with (\$ $amount)',style: TextStyle(color: greyTextColor,fontWeight: FontWeight.bold,),maxLines: 1,overflow: TextOverflow.ellipsis,),
-                  ),
-                ],
-              ),
-            ),
-            leadingWidth: MediaQuery.of(context).size.width,
-          ),
+          appBar: PreferredSize(
+              preferredSize:Size.fromHeight(40),child: CustomAppBar(text:'To complete your payment with (\$ $amount)')),
           body:  Padding(
             padding: const EdgeInsets.all(13.0),
             child: SingleChildScrollView(
@@ -87,8 +72,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         Expanded(child: Text('${state.error}',style: TextStyle(color: Colors.red),)),
                       ],
                     ),
-                  SizedBox(height: 20,),
-                  ButtonLogin(
+                  SizedBox(height:40.h,),
+                  ButtonItemBuilder(
                     height: 45,
                     radius: 10,
                     isLogin: false,
@@ -96,9 +81,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     onTap: ()async{
                       HomeCubit.get(context).GetPaymentMethodId(_controller.text, _controllerexmonth.text, _controllerexyear.text, _controllerccv.text, _controllerName.text, _controllerMail.text,country, _controllerLine.text, _controllerCity.text, _controllerZip.text);
                     },
-                    textwidget: state is GetSingleDonationStateLoading||state is GetPaymentMethodIdStateLoading?Progress():Text('Pay\$$amount /($selectedItem)',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),),
+                    textwidget: state is GetSingleDonationStateLoading||state is GetPaymentMethodIdStateLoading||state is GetSubscriptionStateLoading?Progress():Text('Pay\$$amount /($selectedItem)',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),),
                   ),
-                  // SizedBox(height: 20,),
                 ],
               ),
             ),
@@ -106,26 +90,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
         listener: (context, state) {
           if(state is GetPaymentMethodIdStateSuccess) {
-            if(selectedItem=='once') {
-              HomeCubit.get(context).SingleDonation();
-            }
-            if(selectedItem!='once'){
-              HomeCubit.get(context).SubscriptionDonation();
-            }
+            if(selectedItem=='once') {HomeCubit.get(context).SingleDonation();}
+            else{HomeCubit.get(context).SubscriptionDonation();}
           }
-          if(state is GetSingleDonationStateSuccess&&state.singlePay.success==true||state is GetSubscriptionStatSuccess&&state.singlePay.success==true) {
-            pay='';
+          if(state is GetSingleDonationStateSuccess&&state.singlePay.success==true||state is GetSubscriptionStatSuccess) {
+            paymentMethodeID='';
             showDialog(context: context, builder: (BuildContext context) {return DonationSuccessDialogItemBuilder();},);
           }
           if(state is ShowOTPSuccess){
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                bool isdone=false;
                 return  DonationOTPDialogItemBuilder(onTap: ()async{
-                  setState(() {
-                    isdone=true;
-                  });
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -134,9 +110,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       );
                     },
                   );
-                  DioHelper.postData(url:'/single-charge/create',data: {
-                    'paymentIntentId':otp
-                  }).then((value) {
+                  DioHelperLogin.postData(url:'/create-single-charge',data: {
+                    'paymentIntentId':otpID
+                  },token:'Bearer $token').then((value) {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -148,7 +124,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               },
             );
           }
-
         },
       ),
     );

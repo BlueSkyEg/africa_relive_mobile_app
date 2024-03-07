@@ -11,294 +11,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import '../../models/retrieve_all_payment_model.dart';
+import '../../models/payment_models/retrieve_all_payment_model.dart';
 import 'loginWidgets.dart';
 class FormFieldPay extends StatelessWidget{
   final TextEditingController controller;
   final String labelText;
-   FormFieldPay({super.key, required this.controller, required this.labelText});
+  final String hintText;
+   FormFieldPay({super.key, required this.controller, required this.labelText, required this.hintText});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-   return Container(
-     height: 55,
-     child: TextFormField(
-       onTapOutside: (event) => FocusScope.of(context).unfocus(),
-       style: TextStyle(color: Colors.black),
-       controller: controller,
-       keyboardType: TextInputType.text,
-       decoration: InputDecoration(
-         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-         labelText: labelText,
-
-       ),
+   return Padding(
+     padding:  EdgeInsets.symmetric(vertical: 4.0),
+     child: Column(
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: [
+         Padding(
+           padding: EdgeInsets.only(left: 10,bottom: 4),
+           child: Text(labelText),
+         ),
+         Container(
+           height: 52,
+           child: TextFormField(
+             onTapOutside: (event) => FocusScope.of(context).unfocus(),
+             style: TextStyle(color: Colors.black),
+             controller: controller,
+             keyboardType: TextInputType.text,
+             decoration: InputDecoration(
+               contentPadding: EdgeInsets.all(8),
+               focusedBorder: OutlineInputBorder(
+                 borderRadius: BorderRadius.circular(8.0),
+                 borderSide: BorderSide(
+                   color: AppColors.buttonsColor,
+                   width: 1.0,
+                 ),
+               ),
+               border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+               // labelText: '',
+               hintText: hintText,
+               hintStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14)
+               
+             ),
+           ),
+         ),
+       ],
      ),
    );
   }
 }
-// class CardForm extends StatefulWidget{
-//   final TextEditingController controller;
-//  final  TextEditingController controllerccv;
-//   final TextEditingController controllerexmonth;
-//  final TextEditingController controllerexyear;
-//    CardForm({super.key, required this.controller, required this.controllerccv, required this.controllerexmonth, required this.controllerexyear});
-//
-//   @override
-//   State<CardForm> createState() => _CardFormState();
-// }
-//
-// class _CardFormState extends State<CardForm> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => HomeCubit(),
-//       child: BlocConsumer<HomeCubit,HomeStates>(
-//         builder: (context, state) => Column(
-//           children: [
-//             SizedBox(height: 20),
-//             Row(
-//               children: [
-//                 Expanded(
-//                   child: CustomCreditCardFormField(
-//                     controller: widget.controller,
-//                     maxLength: 16,
-//                     decoration: InputDecoration(
-//                       border: OutlineInputBorder(),
-//                       labelText: 'Card Number',
-//                       hintText: 'XXXX XXXX XXXX XXXX',
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             Row(
-//               children: [
-//                 Expanded(
-//                   child: Container(
-//
-//                     child: Row(
-//                       children: [
-//                         Expanded(
-//                           child: CustomCreditCardFormField(
-//                             controller: widget.controllerexmonth,
-//                             maxLength: 2,
-//                             decoration: InputDecoration(
-//                               border: OutlineInputBorder(),
-//                               labelText: 'month',
-//                               hintText: '00',
-//                             ),
-//                           ),
-//                         ),
-//                         Expanded(
-//                           child: CustomCreditCardFormField(
-//                             controller: widget.controllerexyear,
-//                             maxLength: 4,
-//                             decoration: InputDecoration(
-//                               border: OutlineInputBorder(),
-//                               labelText: 'year',
-//                               hintText: '0000',
-//                             ),
-//                           ),
-//                         ),
-//
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//                 SizedBox(width: 10,),
-//                 Expanded(
-//                   child: CustomCreditCardFormField(
-//                     controller: widget.controllerccv,
-//                     maxLength: 3,
-//                     decoration: InputDecoration(
-//                       border: OutlineInputBorder(),
-//                       labelText: 'ccv',
-//                       hintText: 'XXXX',
-//                     ),
-//                   ),
-//                 ),
-//
-//               ],
-//             ),
-//             if(state is GetPaymentMethodIdStateError)
-//               Row(
-//                 crossAxisAlignment: CrossAxisAlignment.end,
-//                 mainAxisAlignment: MainAxisAlignment.end,
-//                 children: [
-//                   Padding(
-//                     padding:  EdgeInsets.only(right: 8.0),
-//                     child: Icon(Icons.warning,color: Colors.red,),
-//                   ),
-//                   Expanded(child: Text('${state.error}',style: TextStyle(color: Colors.red),)),
-//                 ],
-//               ),
-//             SizedBox(height: 20,),
-//             ButtonLogin(
-//               isLogin: false,
-//                 onTap: ()async{
-//                 HomeCubit.get(context).GetPaymentMethodId(widget.controller.text, widget.controllerexmonth.text, widget.controllerexyear.text, widget.controllerccv.text);
-//             },
-//               textwidget: state is GetSingleDonationStateLoading||state is GetPaymentMethodIdStateLoading?CircularProgressIndicator():Text('Donate',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600),),
-//             ),
-//             SizedBox(height: 20,),
-//           ],
-//         ),
-//         listener: (context, state) {
-//           if(state is GetPaymentMethodIdStateSuccess)
-//             HomeCubit.get(context).SingleDonation();
-//           if(state is GetSingleDonationStateSuccess&&state.singlePay.success==true) {
-//             Navigator.pop(context);
-//             pay='';
-//             showDialog(
-//               context: context,
-//               builder: (BuildContext context) {
-//                 return Center(
-//                   child: Padding(
-//                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//                     child: Container(
-//                       height: 355,
-//                       decoration: BoxDecoration(
-//                         color: Colors.white,
-//                         borderRadius: BorderRadius.circular(8.0),
-//                       ),
-//                       padding: EdgeInsets.all(16.0),
-//                       child: Column(
-//                         children: [
-//                           SvgPicture.asset('assets/images/Done.svg'),
-//                           Padding(
-//                             padding:  EdgeInsets.only(top: 12.0),
-//                             child: Text(
-//                               'Successful Donation',
-//                               style: TextStyle(fontSize: 18.0,color: buttonsColor),
-//                             ),
-//                           ),
-//                           Text(
-//                             'Thank you for making a donation',
-//                             style: TextStyle(fontSize: 14.0),
-//                           ),
-//                           Spacer(),
-//                           ButtonLogin(
-//                             isLogin: false,
-//                               onTap: (){
-//                             Navigator.pop(context);
-//                           },
-//                               textwidget: Text('Ok',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600)))
-//                         ],
-//                       ),
-//                     ),
-//                   ),
-//                 );
-//               },
-//             );
-//           }
-//           if(state is GetSingleDonationStateSuccess&&state.singlePay.success==false){
-//             Navigator.pop(context);
-//             showDialog(
-//               context: context,
-//               builder: (BuildContext context) {
-//                 return BlocProvider(
-//                   create: (context) => HomeCubit(),
-//                   child: BlocConsumer<HomeCubit,HomeStates>(
-//                     builder: (context, state) =>  Stack(
-//                       children: [
-//                         Center(
-//                           child: Padding(
-//                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//                             child: Container(
-//                               height: 355,
-//                               decoration: BoxDecoration(
-//                                 color: Colors.white,
-//                                 borderRadius: BorderRadius.circular(8.0),
-//                               ),
-//                               padding: EdgeInsets.all(16.0),
-//                               child: Column(
-//                                 children: [
-//                                   Icon(Icons.warning_amber_rounded,size: 150,),
-//                                   Padding(
-//                                     padding:  EdgeInsets.only(top: 12.0),
-//                                     child: Text(
-//                                       'Please After Enter Your OTP ',
-//                                       style: TextStyle(fontSize: 18.0,color: buttonsColor),
-//                                     ),
-//                                   ),
-//                                   Text(
-//                                     'Click (OK) To Complete Your Donation',
-//                                     style: TextStyle(fontSize: 14.0),
-//                                   ),
-//                                   Spacer(),
-//                                   ButtonLogin(
-//                                       isLogin: false,
-//                                       onTap: ()async{
-//                                         DioHelper.postData(url:'/single-charge/create',data: {
-//                                           'paymentIntentId':otp
-//                                         }).then((value) {
-//                                           showDialog(
-//                                             context: context,
-//                                             builder: (BuildContext context) {
-//                                               return Center(
-//                                                 child: Padding(
-//                                                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//                                                   child: Container(
-//                                                     height: 355,
-//                                                     decoration: BoxDecoration(
-//                                                       color: Colors.white,
-//                                                       borderRadius: BorderRadius.circular(8.0),
-//                                                     ),
-//                                                     padding: EdgeInsets.all(16.0),
-//                                                     child: Column(
-//                                                       children: [
-//                                                         SvgPicture.asset('assets/images/Done.svg'),
-//                                                         Padding(
-//                                                           padding:  EdgeInsets.only(top: 12.0),
-//                                                           child: Text(
-//                                                             'Successful Donation',
-//                                                             style: TextStyle(fontSize: 18.0,color: buttonsColor),
-//                                                           ),
-//                                                         ),
-//                                                         Text(
-//                                                           'Thank you for making a donation',
-//                                                           style: TextStyle(fontSize: 14.0),
-//                                                         ),
-//                                                         Spacer(),
-//                                                         ButtonLogin(
-//                                                             isLogin: false,
-//                                                             onTap: ()async{
-//                                                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProjectScreen(),));
-//                                                             },
-//                                                             textwidget: Text('Ok',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600)))
-//                                                       ],
-//                                                     ),
-//                                                   ),
-//                                                 ),
-//                                               );
-//                                             },
-//                                           );
-//                                         });
-//                                       },
-//                                       textwidget: state is !GetSingleDonationStateSuccess?CircularProgressIndicator():Text('Ok',style: TextStyle(color: Colors.white,fontSize: 17,fontWeight: FontWeight.w600)))
-//                                 ],
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                         if(otp==null)
-//                           Container(height: double.infinity,width: double.infinity,child: Center(child: CircularProgressIndicator()),)
-//                       ],
-//                     ),
-//                     listener: (context, state) {
-//
-//                     },
-//                   ),
-//                 );
-//               },
-//             );
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
 class CustomCreditCardFormField extends StatelessWidget {
   final int maxLength;
   final InputDecoration decoration;
@@ -367,7 +128,7 @@ class DonationSuccessDialogItemBuilder extends StatelessWidget{
                 padding:  EdgeInsets.only(top: 12.0),
                 child: Text(
                   'Successful Donation',
-                  style: TextStyle(fontSize: 18.0,color: buttonsColor,decorationColor: Colors.white,decorationThickness: 0),
+                  style: TextStyle(fontSize: 18.0,color: AppColors.buttonsColor,decorationColor: Colors.white,decorationThickness: 0),
                 ),
               ),
               Text(
@@ -375,7 +136,7 @@ class DonationSuccessDialogItemBuilder extends StatelessWidget{
                 style: TextStyle(fontSize: 14.0,color: Colors.black,decorationColor: Colors.white,decorationThickness: 0),
               ),
               Spacer(),
-              ButtonLogin(
+              ButtonItemBuilder(
                   isLogin: false,
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectScreen(),));
@@ -422,7 +183,7 @@ class _DonationOTPDialogItemBuilderState extends State<DonationOTPDialogItemBuil
                     ),
                   ),
                   Spacer(),
-                  ButtonLogin(
+                  ButtonItemBuilder(
                       height: 45,
                       radius: 10,
                       isLogin: false,
@@ -460,7 +221,7 @@ class _UserCardsItemBuilderState extends State<UserCardsItemBuilder> {
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
               borderRadius: BorderRadiusDirectional.circular(5),
-              border: Border.all(color: greyTextColor)
+              border: Border.all(color: AppColors.greyTextColor)
           ),
           child: Row(
             children: [
@@ -472,12 +233,12 @@ class _UserCardsItemBuilderState extends State<UserCardsItemBuilder> {
                 onTap: () {
                   if(selectedItem=='once')
                   {
-                    pay=widget.retrieve.data!.paymentMethods!.data![index].id.toString();
+                    paymentMethodeID=widget.retrieve.data!.paymentMethods!.data![index].id.toString();
                     HomeCubit.get(context).SingleDonation();
                   }
                   if(selectedItem!='once')
                   {
-                    pay=widget.retrieve.data!.paymentMethods!.data![index].id.toString();
+                    paymentMethodeID=widget.retrieve.data!.paymentMethods!.data![index].id.toString();
                     HomeCubit.get(context).SubscriptionDonation();
                   }
                 },
@@ -488,7 +249,7 @@ class _UserCardsItemBuilderState extends State<UserCardsItemBuilder> {
                       // border: Border.all(),
                       color: HexColor('F1F7F3')
                   ),
-                  child: Text('pay',style: TextStyle(color: buttonsColor,fontSize: 14),),
+                  child: Text('pay',style: TextStyle(color: AppColors.buttonsColor,fontSize: 14),),
                 ),
               )
             ],
@@ -518,64 +279,73 @@ class _PaymentUserDataState extends State<PaymentUserData> {
       children: [
         Padding(
           padding:  EdgeInsets.symmetric(vertical: 8.0),
-          child: FormFieldPay(controller: widget.controllerName,labelText:'Name'),
+          child: FormFieldPay(controller: widget.controllerName,labelText:'Name',hintText: 'eg John Doe'),
         ),
         Padding(
           padding:  EdgeInsets.symmetric(vertical: 8.0),
-          child: FormFieldPay(controller: widget.controllerMail, labelText: 'E-mail',),
+          child: FormFieldPay(controller: widget.controllerMail, labelText: 'E-mail',hintText: 'eg example@example.com',),
         ),
+        Align(alignment:Alignment.topLeft,child: Padding(padding: EdgeInsets.only(left: 10,bottom: 4,top: 8), child: Text('Country'),)),
         Padding(
-          padding:  EdgeInsets.symmetric(vertical: 8.0),
-          child: Row(
-            children: [
-              CountryListPick(
-                  appBar: AppBar(
-                    backgroundColor: Colors.white,
-                    title: Text('Choisir un pays'),
-                    leading:GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Icon(Icons.arrow_back_ios,size: 20,color: Colors.black,),),
+          padding:  EdgeInsets.only(bottom: 8.0),
+          child: Container(
+            height: 52,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: AppColors.greyTextColor)
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: CountryListPick(
+                      appBar: AppBar(
+                        backgroundColor: Colors.white,
+                        title: Text('Select your country'),
+                        leading:GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(Icons.arrow_back_ios,size: 20,color: Colors.black,),),
+                      ),
+                      theme: CountryTheme(
+                        isShowFlag: false,
+                        isShowTitle: true,
+                        isShowCode: false,
+                        isDownIcon: true,
+                        showEnglishName: true,
+                      ),
+                      pickerBuilder: (context, countryCode) => Row(
+                        children: [
+                          Expanded(child: Text(countryCode!.name.toString(),style: TextStyle(color: AppColors.greyTextColor),)),
+                          Icon(Icons.arrow_forward_ios_rounded,size: 20,color: AppColors.greyTextColor,)
+                        ],
+                      ),
+                      initialSelection: 'US',
+                      onChanged: (value) {
+                        setState(() {
+                          widget.country=value!.code.toString();
+                        });
+                      },
+                      useUiOverlay: true,
+                      useSafeArea: false,
                   ),
-                  theme: CountryTheme(
-                    isShowFlag: true,
-                    isShowTitle: false,
-                    isShowCode: false,
-                    isDownIcon: true,
-                    showEnglishName: true,
-                  ),
-                  // Set default value
-                  initialSelection: 'US',
-                  // or
-                  // initialSelection: 'US'
-                  onChanged: (value) {
-                    setState(() {
-                      widget.country=value!.code.toString();
-                    });
-                    print(widget.country);
-                    print(value!.name);
-                    print(value!.flagUri);
-                    print(value!.dialCode);
-
-                  },
-                  // Whether to allow the widget to set a custom UI overlay
-                  useUiOverlay: true,
-                  // Whether the country list should be wrapped in a SafeArea
-                  useSafeArea: false
-              ),
-              // Expanded(child: FormFieldPay(controller: _controllerCountry, labelText: 'Country',)),
-              SizedBox(width: 10,),
-              Expanded(child: FormFieldPay(controller: widget.controllerCity, labelText: 'City',)),
-
-            ],
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
           padding:  EdgeInsets.symmetric(vertical: 8.0),
-          child: FormFieldPay(controller: widget.controllerLine, labelText: 'Address Line1',),
+          child: FormFieldPay(controller: widget.controllerCity, labelText: 'City',hintText: 'eg NewYork'),
         ),
         Padding(
           padding:  EdgeInsets.symmetric(vertical: 8.0),
-          child: FormFieldPay(controller: widget.controllerZip, labelText: 'Zip Cod',),
+          child: FormFieldPay(controller: widget.controllerLine, labelText: 'Address Line',hintText: 'eg 7195 East Blue Spring St. Bay Shore, NY 11706',),
+        ),
+        Padding(
+          padding:  EdgeInsets.symmetric(vertical: 8.0),
+          child: FormFieldPay(controller: widget.controllerZip, labelText: 'Zip Code',hintText: 'eg 11706',),
         ),
       ],
     );
@@ -609,6 +379,8 @@ class _CardDonateDataState extends State<CardDonateData> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                     labelText: 'Card Number',
+                    labelStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14),
+                    hintStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14),
                     suffixIcon: Icon(Icons.add_card),
                     hintText: 'XXXX XXXX XXXX XXXX',
                   ),
@@ -631,6 +403,8 @@ class _CardDonateDataState extends State<CardDonateData> {
                           maxLength: 2,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                            labelStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14),
+                            hintStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14),
                             labelText: 'MM',
                             hintText: '00',
                           ),
@@ -643,6 +417,8 @@ class _CardDonateDataState extends State<CardDonateData> {
                           maxLength: 4,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                            labelStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14),
+                            hintStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14),
                             labelText: 'YY',
                             hintText: '0000',
                           ),
@@ -660,6 +436,8 @@ class _CardDonateDataState extends State<CardDonateData> {
                   maxLength: 3,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    labelStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14),
+                    hintStyle: TextStyle(color: AppColors.greyTextColor,fontSize: 14),
                     labelText: 'ccv',
                     hintText: 'XXXX',
                   ),
@@ -673,5 +451,4 @@ class _CardDonateDataState extends State<CardDonateData> {
     );
   }
 }
-String pay='';
-String otp='';
+
