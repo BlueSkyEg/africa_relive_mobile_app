@@ -9,6 +9,8 @@ import 'loginWidgets.dart';
 
 class Errors {
   static String authenticationError = '422';
+  static String tokenError = '500';
+  static String userError = '401';
   static String authenticationErrorText = 'It looks like there was an issue with your e-mail or password. Please double-check and try again.';
   static String passwordNotStrongOrNotMatch='Your password need to be stronger or passwords dosn\'t match';
 }

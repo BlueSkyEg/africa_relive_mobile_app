@@ -293,25 +293,28 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-  void SingleDonation() {
+  void SingleDonation({required String comment}) {
     emit(GetSingleDonationStateLoading());
     DioHelperLogin.postData(
             url: '/create-single-charge',
             data: {
               'paymentMethodId': paymentMethodeID,
-              'amount': amount.toInt(), //integer
+              'amount': amount.toString(), //integer
               'paymentDescription': getTitle,
-              'donationFormId': 14577,
+              'donationFormId': '14577',
               'anonymousDonation': true,
               'savePaymentMethod': true,
-              'billingComment': 'kjkj',
+              'billingComment': comment,
               'name': name,
               'email': email
             },
             token: 'Bearer $token')
         .then((value) {
       singlePayment = SinglePayment.fromJson(value.data);
-      if (singlePayment!.success == false) {
+      print(singlePayment!.message);
+      print(token);
+      // print(singlePayment!.errors!.toJson());
+      if (singlePayment!.success == false&&singlePayment!.data!.requiresAction==true) {
         Stripe.instance
             .handleNextAction(singlePayment!.data!.clientSecret.toString())
             .then((value) {
@@ -330,30 +333,28 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-  void SubscriptionDonation() {
+  void SubscriptionDonation({required String comment}) {
     emit(GetSubscriptionStateLoading());
     DioHelperLogin.postData(
-            url: '/subscription/create',
+            url: '/subscription/create?',
             data: {
-              'paymentMethodId': paymentMethodeID,
-              'amount': amount,
-              'recurringPeriod': selectedItem,
+              'paymentMethodId': paymentMethodeID.toString(),
+              'amount': amount.toString(),
+              'recurringPeriod': selectedItem.toString(),
               'subscriptionName': getTitle,
-              'name': name,
-              'email': email,
-              'anonymousDonation': false,
-              'donationFormId': 14577,
+              'name': name.toString(),
+              'email': email.toString(),
+              'anonymousDonation': true,
+              'donationFormId': '14577',
               'savePaymentMethod': true,
-              'donorBillingComment': 'kjkj',
+              'billingComment': comment.toString(),
             },
             token: 'Bearer $token')
         .then((value) {
       print('singlePayment!.data!.requiresAction');
-      print(value.data['clientSecret']);
       subscriptionPayment = SubscriptionModel.fromJson(value!.data!);
-      print(subscriptionPayment!.clientSecret);
-      if (subscriptionPayment!.success == false) {
-        Stripe.instance.handleNextAction(subscriptionPayment!.clientSecret.toString())
+      if (subscriptionPayment!.success == false&&subscriptionPayment!.data!.requiresAction==true) {
+        Stripe.instance.handleNextAction(subscriptionPayment!.data!.clientSecret.toString())
             .then((value) {
           otpID = value.id;
           emit(ShowOTPSuccess());

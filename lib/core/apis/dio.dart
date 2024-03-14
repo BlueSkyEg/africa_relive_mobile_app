@@ -92,14 +92,14 @@ class DioHelperLogin {
         data:data
     );
   }
-  static Future<Response> putData({required String? url, Map<String,dynamic>? query, required Map<String,dynamic> data , String? lang = 'en',String? token })
+  static Future<Response> delete({required String? url, Map<String,dynamic>? query, required Map<String,dynamic> data , String? lang = 'en',String? token })
   async{
     dio!.options.headers={
       'lang':lang,
       'Authorization':token??'',
       'content-type':'application/json'
     };
-    return await dio!.put
+    return await dio!.delete
       (
         url!,
         queryParameters: query,

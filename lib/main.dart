@@ -2,6 +2,7 @@
 import 'package:africa_relief/core/stripe_payment/stripe_keys.dart';
 import 'package:africa_relief/view/componants/variable.dart';
 import 'package:africa_relief/view/screens/login_screen/login.dart';
+import 'package:africa_relief/view/screens/navigation_main_screen/navigation_screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,8 @@ void main() async{
   name=await CashHelper.getData(key: 'name')!=null?CashHelper.getData(key: 'name'):'';
   email=await CashHelper.getData(key: 'email')!=null?CashHelper.getData(key: 'email'):'';
   userCardList=['100'];// CashHelper.sharedPreferences!.setStringList('cashed_cards_list', userCardList);
-  Widget? startScreen =const LoginScreen();
+  print(token);
+  Widget? startScreen =token!=''?Home(): LoginScreen();
   runApp(MyApp(startScreen: startScreen,));
 }
 

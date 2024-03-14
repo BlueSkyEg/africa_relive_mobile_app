@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
               CashHelper.saveData(key: 'name', value: state.login.data!.user!.name.toString());
               name=CashHelper.getData(key: 'name');
               CashHelper.saveData(key: 'email', value: state.login.data!.user!.email.toString());
-              email=CashHelper.getData(key: 'email');
+              email =CashHelper.getData(key: 'email');
             }
             else
               ShowToast(message: '${state.login.message}', state:ToastState.ERROR);

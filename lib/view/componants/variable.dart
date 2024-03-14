@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import 'package:intl/intl.dart';
+
 import '../../core/helper/Cashhelper/cash_helper.dart';
 
 String getType='';
@@ -27,3 +29,15 @@ String token=CashHelper.getData(key: 'token')??'';
 String name=CashHelper.getData(key: 'name')??'';
 String email=CashHelper.getData(key: 'email')??'';
 List<String> userCardList=CashHelper.getListData(key:'cashed_cards_list')??[];
+String subscriptionId='';
+String formattedDate(String dateString) {
+  DateTime dateTime = DateTime.parse(dateString);
+  String formatted = DateFormat('dd-MM-yyyy').format(dateTime);
+  return formatted;
+}
+String formattedDateTime(String dateTimeString) {
+  DateTime dateTime = DateTime.parse(dateTimeString);
+  String formattedDate = DateFormat.yMMMMd().format(dateTime); // March 19, 2023
+  String formattedTime = DateFormat.jm().format(dateTime); // 12:27 PM
+  return '$formattedDate - $formattedTime';
+}

@@ -234,12 +234,12 @@ class _UserCardsItemBuilderState extends State<UserCardsItemBuilder> {
                   if(selectedItem=='once')
                   {
                     paymentMethodeID=widget.retrieve.data!.paymentMethods!.data![index].id.toString();
-                    HomeCubit.get(context).SingleDonation();
+                    HomeCubit.get(context).SingleDonation(comment: '');
                   }
                   if(selectedItem!='once')
                   {
                     paymentMethodeID=widget.retrieve.data!.paymentMethods!.data![index].id.toString();
-                    HomeCubit.get(context).SubscriptionDonation();
+                    HomeCubit.get(context).SubscriptionDonation(comment: '');
                   }
                 },
                 child: Container(
@@ -266,8 +266,9 @@ class PaymentUserData extends StatefulWidget{
   final TextEditingController controllerCity;
   final TextEditingController controllerLine;
   final TextEditingController controllerZip;
+  final TextEditingController billingCommentController;
   String country;
-   PaymentUserData({super.key, required this.controllerMail, required this.controllerName, required this.controllerCity, required this.controllerLine, required this.controllerZip, required this.country});
+   PaymentUserData({super.key, required this.controllerMail, required this.controllerName, required this.controllerCity, required this.controllerLine, required this.controllerZip, required this.country, required this.billingCommentController});
 
   @override
   State<PaymentUserData> createState() => _PaymentUserDataState();
@@ -346,6 +347,10 @@ class _PaymentUserDataState extends State<PaymentUserData> {
         Padding(
           padding:  EdgeInsets.symmetric(vertical: 8.0),
           child: FormFieldPay(controller: widget.controllerZip, labelText: 'Zip Code',hintText: 'eg 11706',),
+        ),
+        Padding(
+          padding:  EdgeInsets.symmetric(vertical: 8.0),
+          child: FormFieldPay(controller: widget.billingCommentController, labelText: 'Donner comment',hintText: 'My donner comment',),
         ),
       ],
     );

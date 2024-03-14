@@ -37,11 +37,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
   TextEditingController _controllerCity=TextEditingController();
   TextEditingController _controllerLine=TextEditingController();
   TextEditingController _controllerZip=TextEditingController();
+  TextEditingController _controllerComment=TextEditingController();
   String country='US';
   @override
   void initState() {
     _controllerName.text=name;
     _controllerMail.text=email;
+    _controller.text='4242424242424242';
     super.initState();
   }
   @override
@@ -58,7 +60,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  PaymentUserData(controllerMail: _controllerMail, controllerName: _controllerName, controllerCity: _controllerCity, controllerLine: _controllerLine, controllerZip: _controllerZip, country: country,),
+                  PaymentUserData(controllerMail: _controllerMail, controllerName: _controllerName, controllerCity: _controllerCity, controllerLine: _controllerLine, controllerZip: _controllerZip, country: country,billingCommentController: _controllerComment),
                   CardDonateData(controller: _controller, controllerccv: _controllerccv, controllerexmonth: _controllerexmonth, controllerexyear: _controllerexyear,),
                   if(state is GetPaymentMethodIdStateError)
                     Row(
@@ -90,8 +92,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
         listener: (context, state) {
           if(state is GetPaymentMethodIdStateSuccess) {
-            if(selectedItem=='once') {HomeCubit.get(context).SingleDonation();}
-            else{HomeCubit.get(context).SubscriptionDonation();}
+            if(selectedItem=='once') {HomeCubit.get(context).SingleDonation(comment: _controllerComment.text);}
+            else{HomeCubit.get(context).SubscriptionDonation(comment: _controllerComment.text);}
           }
           if(state is GetSingleDonationStateSuccess&&state.singlePay.success==true||state is GetSubscriptionStatSuccess) {
             paymentMethodeID='';
